@@ -88,18 +88,18 @@ export default function Home() {
               </div>
               <div className="nav-industries-grid">
                 {[
-                  { label: "Interiors",  img: `${BASE}/images/1.jpeg` },
-                  { label: "Bathrooms",  img: `${BASE}/images/SKU_2_1_rev001.jpg` },
-                  { label: "Products",   img: `${BASE}/images/SKU_10_2.png` },
-                  { label: "Kitchens",   img: `${BASE}/images/3.jpg` },
-                  { label: "Bedrooms",   img: `${BASE}/images/6.jpeg` },
-                  { label: "Property",   img: `${BASE}/images/9.jpeg` },
-                ].map(({ label, img }) => (
+                  { label: "Interiors",  img: `${BASE}/images/1.jpeg`,              slug: "interiors" },
+                  { label: "Bathrooms",  img: `${BASE}/images/SKU_2_1_rev001.jpg`,  slug: "bathrooms" },
+                  { label: "Products",   img: `${BASE}/images/SKU_10_2.png`,         slug: "products" },
+                  { label: "Kitchens",   img: `${BASE}/images/3.jpg`,               slug: "kitchens" },
+                  { label: "Bedrooms",   img: `${BASE}/images/6.jpeg`,              slug: "bedrooms" },
+                  { label: "Property",   img: `${BASE}/images/9.jpeg`,              slug: "property" },
+                ].map(({ label, img, slug }) => (
                   <figure key={label}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={img} alt={label} />
                     <figcaption>
-                      <h3><a href="https://www.imagefoundry.co.uk/" onClick={toggle}>{label.toUpperCase()}</a></h3>
+                      <h3><a href={`https://www.imagefoundry.co.uk/your-industry/${slug}/`} onClick={toggle}>{label.toUpperCase()}</a></h3>
                     </figcaption>
                   </figure>
                 ))}
@@ -113,8 +113,8 @@ export default function Home() {
 
               <ul className="nav-primary">
                 <li><a href="https://www.imagefoundry.co.uk/about-us/" onClick={toggle}>About</a></li>
-                <li className="active"><a href="https://www.imagefoundry.co.uk/" onClick={toggle}>Your Industry</a></li>
-                <li><a href="https://www.imagefoundry.co.uk/" onClick={toggle}>Case Studies</a></li>
+                <li className="active"><a href="https://www.imagefoundry.co.uk/your-industry/" onClick={toggle}>Your Industry</a></li>
+                <li><a href="https://www.imagefoundry.co.uk/case-studies/" onClick={toggle}>Case Studies</a></li>
                 <li><a href="https://www.imagefoundry.co.uk/insights/" onClick={toggle}>Insights</a></li>
                 <li><a href="https://www.imagefoundry.co.uk/process/" onClick={toggle}>Our Process</a></li>
                 <li><a href="https://www.imagefoundry.co.uk/contact-us/" onClick={toggle}>Contact Us</a></li>
