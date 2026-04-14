@@ -88,18 +88,18 @@ export default function Home() {
               </div>
               <div className="nav-industries-grid">
                 {[
-                  { label: "Interiors",  img: `${BASE}/images/1.jpeg`,              slug: "interiors" },
-                  { label: "Bathrooms",  img: `${BASE}/images/SKU_2_1_rev001.jpg`,  slug: "bathrooms" },
-                  { label: "Products",   img: `${BASE}/images/SKU_10_2.png`,         slug: "products" },
-                  { label: "Kitchens",   img: `${BASE}/images/3.jpg`,               slug: "kitchens" },
-                  { label: "Bedrooms",   img: `${BASE}/images/6.jpeg`,              slug: "bedrooms" },
-                  { label: "Property",   img: `${BASE}/images/9.jpeg`,              slug: "property" },
-                ].map(({ label, img, slug }) => (
+                  { label: "Interiors",  img: `${BASE}/images/1.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/interiors/" },
+                  { label: "Bathrooms",  img: `${BASE}/images/SKU_2_1_rev001.jpg`, href: "https://www.imagefoundry.co.uk/industry/bathrooms/" },
+                  { label: "Products",   img: `${BASE}/images/SKU_10_2.png`,        href: "https://www.imagefoundry.co.uk/industry/product/" },
+                  { label: "Kitchens",   img: `${BASE}/images/3.jpg`,              href: "https://www.imagefoundry.co.uk/industry/kitchen/" },
+                  { label: "Bedrooms",   img: `${BASE}/images/6.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/bedrooms/" },
+                  { label: "Property",   img: `${BASE}/images/9.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/property/" },
+                ].map(({ label, img, href }) => (
                   <figure key={label}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={img} alt={label} />
                     <figcaption>
-                      <h3><a href={`https://www.imagefoundry.co.uk/your-industry/${slug}/`} onClick={toggle}>{label.toUpperCase()}</a></h3>
+                      <h3><a href={href} onClick={toggle}>{label.toUpperCase()}</a></h3>
                     </figcaption>
                   </figure>
                 ))}
