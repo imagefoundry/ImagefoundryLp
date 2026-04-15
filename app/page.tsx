@@ -476,6 +476,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TRUSTED BY — after expertise */}
+      <div className="section-logos">
+        <p className="logos-label">Trusted by leading brands</p>
+        <div className="logos-row">
+          {[
+            { src: `${BASE}/images/logos/strata.png`,        alt: "Strata" },
+            { src: `${BASE}/images/logos/irsap-1.png`,       alt: "Irsap" },
+            { src: `${BASE}/images/logos/geberit.png`,       alt: "Geberit" },
+            { src: `${BASE}/images/logos/ideal-standard.png`,alt: "Ideal Standard" },
+            { src: `${BASE}/images/logos/franke.png`,        alt: "Franke" },
+            { src: `${BASE}/images/logos/m-s.png`,           alt: "M&S" },
+            { src: `${BASE}/images/logos/b-q.png`,           alt: "B&Q" },
+            { src: `${BASE}/images/logos/bbc.png`,           alt: "BBC" },
+            { src: `${BASE}/images/logos/vistry-group.png`,  alt: "Vistry Group" },
+            { src: `${BASE}/images/logos/amtico.png`,        alt: "Amtico" },
+            { src: `${BASE}/images/logos/barratt.png`,       alt: "Barratt" },
+            { src: `${BASE}/images/logos/wienerberger.png`,  alt: "Wienerberger" },
+          ].map(({ src, alt }) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={alt} src={src} alt={alt} className="client-logo" />
+          ))}
+        </div>
+      </div>
+
       {/* GALLERY */}
       <section className="section-gallery">
         <div className="gallery-header wow">

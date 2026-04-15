@@ -814,7 +814,7 @@ header nav {
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding: 40px 48px;
+  padding: 54px 48px;
   border-right: 1px solid rgba(255,255,255,0.15);
   border-top: 3px solid var(--black);
   background-color: var(--near-black);
@@ -1553,10 +1553,14 @@ footer {
     grid-template-columns: 1fr;
   }
   .expertise-images {
-    grid-template-rows: unset;
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    height: 280px;
+    flex-direction: unset;
+    height: auto;
+    gap: 4px;
+    padding-right: 0;
   }
+  .expertise-images img { height: 260px; object-fit: cover; }
   .expertise-text {
     padding: 56px 40px 40px;
     border-bottom: 1px solid var(--light-grey);
@@ -1632,8 +1636,17 @@ footer {
 
   /* === EXPERTISE === */
   .expertise-inner { grid-template-columns: 1fr; }
-  .expertise-images { grid-template-columns: repeat(3, 1fr); height: 200px; }
-  .expertise-text { padding: 40px 24px 32px; }
+  .expertise-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex-direction: unset;
+    height: auto;
+    gap: 4px;
+    padding-right: 0;
+    margin-bottom: 0;
+  }
+  .expertise-images img { height: 180px; object-fit: cover; border-radius: 0; }
+  .expertise-text { padding: 40px 24px 32px; border-right: none; }
   .expertise-points { padding: 0 24px 40px; }
   .expertise-point { padding: 20px 0; }
 
