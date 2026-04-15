@@ -495,7 +495,7 @@ export default function Home() {
             { src: `${BASE}/images/logos/wienerberger.png`,  alt: "Wienerberger" },
           ].map(({ src, alt }) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={alt} src={src} alt={alt} className="client-logo" />
+            <img key={`e-${alt}`} src={src} alt={alt} className="client-logo" />
           ))}
         </div>
       </div>
