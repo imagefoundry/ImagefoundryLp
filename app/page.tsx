@@ -21,7 +21,13 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [navDown, setNavDown] = useState(false);
   const [cwIndex, setCwIndex] = useState(0);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const cwRef = useRef<HTMLDivElement>(null);
+
+  const handleFormSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormSubmitted(true);
+  };
 
   const cwPrev = () => setCwIndex(i => Math.max(0, i - 1));
   const cwNext = () => setCwIndex(i => Math.min(COLOURWAY_SLIDES.length - 1, i + 1));
@@ -555,7 +561,7 @@ export default function Home() {
             <h2 className="section-h2">START THE<br/><span className="outline">CONVERSATION.</span></h2>
             <p className="section-body">Tell us about your product range and we&apos;ll show you exactly what&apos;s possible — no commitment required.</p>
           </div>
-          <form className="contact-form wow" action="https://forms.zohopublic.in/rohitloveimag1/form/ImageFoundryLPContact/formperma/cQq5EJTMqEublBK4MaG9glWblXHEzqXbQlSJHhNUuig" method="POST" target="_blank">
+          <form className="contact-form wow" onSubmit={handleFormSubmit}>
             <div className="cf-row">
               <div className="cf-field">
                 <label htmlFor="cf-name">Name</label>
@@ -659,6 +665,18 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      {/* THANK YOU POPUP */}
+      {formSubmitted && (
+        <div className="popup-overlay" onClick={() => setFormSubmitted(false)}>
+          <div className="popup-box" onClick={e => e.stopPropagation()}>
+            <button className="popup-close" onClick={() => setFormSubmitted(false)}>&#x2715;</button>
+            <div className="popup-icon">✓</div>
+            <h3 className="popup-heading">Thank you!</h3>
+            <p className="popup-body">We&apos;ve received your message and will be in touch within 24 hours.</p>
+            <a href="https://www.imagefoundry.co.uk/" className="popup-btn">Explore Our Work</a>
+          </div>
+        </div>
+      )}
     </>
   );
 }
