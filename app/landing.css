@@ -1287,30 +1287,29 @@ header nav {
 /* ===== CLIENT LOGOS ===== */
 .section-logos {
   background: var(--black);
-  padding: 24px 64px 32px;
+  padding: 19px 64px 26px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   text-align: center;
 }
 .logos-label {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.4);
-  margin-bottom: 52px;
+  margin-bottom: 42px;
 }
 .logos-row {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 40px 48px;
-  flex-wrap: wrap;
+  gap: 32px 38px;
 }
 .client-logo {
   height: auto;
-  max-height: 36px;
-  max-width: 120px;
+  max-height: 29px;
+  max-width: 96px;
   width: auto;
   object-fit: contain;
   opacity: 1;
@@ -1491,15 +1490,31 @@ footer {
 }
 
 .footer-lets-talk {
-  display: inline-block;
-  font-size: 16px; font-weight: 700; letter-spacing: 0.04em;
-  text-transform: uppercase; color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--white);
   text-decoration: none;
-  background: var(--teal);
-  padding: 14px 32px; align-self: flex-start;
-  transition: background 0.2s;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  padding: 20px 28px;
+  width: fit-content;
+  transition: background 0.2s, color 0.2s;
+  letter-spacing: -0.2px;
+  text-transform: none;
+  border-radius: 0;
 }
-.footer-lets-talk:hover { background: #1e4d5e; }
+.footer-lets-talk::after {
+  content: "";
+  width: 60px;
+  flex-shrink: 0;
+  height: 1.5px;
+  background: currentColor;
+}
+.footer-lets-talk:hover { background: var(--teal); border-color: var(--teal); color: var(--white); }
 
 .footer-nav { display: flex; flex-direction: column; gap: 4px; list-style: none; }
 
