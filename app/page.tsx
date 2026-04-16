@@ -555,24 +555,24 @@ export default function Home() {
             <h2 className="section-h2">START THE<br/><span className="outline">CONVERSATION.</span></h2>
             <p className="section-body">Tell us about your product range and we&apos;ll show you exactly what&apos;s possible — no commitment required.</p>
           </div>
-          <form className="contact-form wow" action="https://www.imagefoundry.co.uk/contact-us/" method="GET">
+          <form className="contact-form wow" action="https://forms.zohopublic.in/rohitloveimag1/form/ImageFoundryLPContact/formperma/cQq5EJTMqEublBK4MaG9glWblXHEzqXbQlSJHhNUuig" method="POST" target="_blank">
             <div className="cf-row">
               <div className="cf-field">
                 <label htmlFor="cf-name">Name</label>
-                <input id="cf-name" type="text" name="name" placeholder="Your name" required />
+                <input id="cf-name" type="text" name="Name" placeholder="Your name" required />
               </div>
               <div className="cf-field">
                 <label htmlFor="cf-company">Company</label>
-                <input id="cf-company" type="text" name="company" placeholder="Your company" />
+                <input id="cf-company" type="text" name="Company" placeholder="Your company" />
               </div>
             </div>
             <div className="cf-field">
               <label htmlFor="cf-email">Email</label>
-              <input id="cf-email" type="email" name="email" placeholder="your@email.com" required />
+              <input id="cf-email" type="email" name="Email" placeholder="your@email.com" required />
             </div>
             <div className="cf-field">
               <label htmlFor="cf-message">Message</label>
-              <textarea id="cf-message" name="message" rows={4} placeholder="Tell us about your product range..." />
+              <textarea id="cf-message" name="Message" rows={4} placeholder="Tell us about your product range..." />
             </div>
             <button type="submit" className="cf-submit">Send Message</button>
           </form>
