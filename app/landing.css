@@ -478,8 +478,8 @@ header nav {
 
 .stat-item {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
   text-align: left;
 }
 
@@ -490,7 +490,6 @@ header nav {
   text-transform: uppercase;
   color: var(--white);
   line-height: 1;
-  min-width: 4ch;
   display: inline-block;
   font-variant-numeric: tabular-nums;
 }
@@ -502,6 +501,7 @@ header nav {
   text-transform: uppercase;
   color: var(--mid-grey);
   line-height: 1.3;
+  white-space: nowrap;
   max-width: 120px;
 }
 
@@ -514,7 +514,7 @@ header nav {
 
 .split-text {
   background: var(--white);
-  padding: 100px 64px;
+  padding: 100px 64px 100px 94px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -563,7 +563,7 @@ header nav {
 /* ===== TESTIMONIAL ===== */
 .section-testimonial {
   background: var(--off-white);
-  padding: 80px 64px;
+  padding: 80px 64px 80px 94px;
   border-top: 1px solid var(--light-grey);
   border-bottom: 1px solid var(--light-grey);
 }
@@ -631,6 +631,7 @@ header nav {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 338px;
 }
 
 .ts-stat {
@@ -671,7 +672,7 @@ header nav {
 
 .colourway-header {
   margin-bottom: 40px;
-  padding: 0 64px;
+  padding: 0 64px 0 94px;
 }
 
 /* Horizontal scroll carousel — 2 and a half images visible */
@@ -778,16 +779,19 @@ header nav {
 /* Top row: heading left, video right */
 .benefits-top {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 480px;
+  grid-template-columns: 1fr 2fr;
+  min-height: 420px;
 }
 
 .benefits-heading {
-  padding: 80px 64px;
+  padding: 40px 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   border-bottom: 1px solid var(--mid-grey);
+}
+.benefits-heading .section-h2 {
+  font-size: clamp(44px, 4vw, 62px);
 }
 
 .benefits-video-wrap {
@@ -823,16 +827,28 @@ header nav {
   position: relative;
   overflow: hidden;
 }
+.benefit-bg {
+  position: absolute;
+  top: -40%;
+  left: 0;
+  right: 0;
+  bottom: -40%;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
 .benefit-item::before {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(10, 10, 10, 0.45);
-  z-index: 0;
-}
-.benefit-item > * {
-  position: relative;
   z-index: 1;
+}
+.benefit-item > *:not(.benefit-bg) {
+  position: relative;
+  z-index: 2;
 }
 .benefit-item:last-child { border-right: none; }
 .benefit-item:nth-child(2) { border-top-color: var(--teal); }
@@ -1203,15 +1219,16 @@ header nav {
 .gi { overflow: hidden; position: relative; }
 
 .gi-inner {
-  aspect-ratio: 4/3;
+  aspect-ratio: 1/1;
   position: relative;
   overflow: hidden;
 }
 
 .gi-inner img {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
   display: block;
   transition: transform 0.5s ease;
 }
@@ -1288,6 +1305,10 @@ header nav {
 .section-logos {
   background: var(--black);
   padding: 19px 64px 26px;
+}
+.section-logos-padded {
+  padding-top: 56px;
+  padding-bottom: 56px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   text-align: center;
 }
@@ -1640,6 +1661,132 @@ footer {
   flex-shrink: 0;
 }
 .popup-btn:hover { background: var(--teal); color: var(--white); }
+
+/* ===== THANK YOU PAGE ===== */
+.thankyou-page {
+  height: 100vh;
+  overflow: hidden;
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 24px 40px;
+  box-sizing: border-box;
+}
+.thankyou-logo {
+  flex-shrink: 0;
+}
+.thankyou-logo img { width: 130px; display: block; }
+.thankyou-content {
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.thankyou-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--white);
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  flex-shrink: 0;
+}
+.thankyou-heading {
+  font-size: clamp(48px, 7vw, 88px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -1.5px;
+  color: var(--white);
+  line-height: 0.95;
+  margin-bottom: 20px;
+}
+.thankyou-body {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.65;
+  margin-bottom: 32px;
+}
+.thankyou-body strong { color: var(--white); font-weight: 700; }
+.thankyou-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 32px;
+  text-align: left;
+}
+.thankyou-step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.thankyou-step-num {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.thankyou-step p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.55;
+  margin: 0;
+}
+.thankyou-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.thankyou-btn {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  padding: 20px 28px;
+  transition: background 0.2s, color 0.2s;
+  text-align: left;
+}
+.thankyou-btn-primary {
+  background: var(--teal);
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.2px;
+}
+.thankyou-btn-primary:hover { background: var(--white); color: var(--black); }
+.thankyou-btn-secondary {
+  background: rgba(255,255,255,0.06);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.2px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.thankyou-btn-secondary:hover { background: var(--white); color: var(--black); }
+.thankyou-btn-secondary:hover .thankyou-btn-sub { color: rgba(0,0,0,0.5); }
+.thankyou-btn-sub {
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: none;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+  margin-top: 5px;
+  letter-spacing: 0;
+}
 
 /* ===== SCROLL ANIMATIONS ===== */
 .wow {

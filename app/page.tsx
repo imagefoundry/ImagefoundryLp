@@ -7,27 +7,20 @@ import "./landing.css";
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const COLOURWAY_SLIDES = [
-  { img: `${BASE}/images/yellow.png`,       label: "Colourway: Yellow",        alt: "Yellow external door — CGI colourway variant" },
-  { img: `${BASE}/images/white.png`,        label: "Colourway: White",         alt: "White external door — CGI colourway variant" },
-  { img: `${BASE}/images/teal.png`,         label: "Colourway: Teal",          alt: "Teal external door — CGI colourway variant" },
-  { img: `${BASE}/images/oak.png`,          label: "Colourway: Oak",           alt: "Oak external door — CGI colourway variant" },
-  { img: `${BASE}/images/anthracite.png`,   label: "Colourway: Anthracite",    alt: "Anthracite external door — CGI colourway variant" },
-  { img: `${BASE}/images/dark%20green.png`, label: "Colourway: Racing Green",  alt: "Racing green external door — CGI colourway variant" },
   { img: `${BASE}/images/red.jpg`,          label: "Colourway: Signal Red",    alt: "Red external door — CGI colourway variant" },
   { img: `${BASE}/images/blue.jpeg`,        label: "Colourway: Steel Blue",    alt: "Blue external door — CGI colourway variant" },
+  { img: `${BASE}/images/dark%20green.png`, label: "Colourway: Racing Green",  alt: "Racing green external door — CGI colourway variant" },
+  { img: `${BASE}/images/yellow.png`,       label: "Colourway: Yellow",        alt: "Yellow external door — CGI colourway variant" },
+  { img: `${BASE}/images/anthracite.png`,   label: "Colourway: Anthracite",    alt: "Anthracite external door — CGI colourway variant" },
+  { img: `${BASE}/images/teal.png`,         label: "Colourway: Teal",          alt: "Teal external door — CGI colourway variant" },
+  { img: `${BASE}/images/oak.png`,          label: "Colourway: Oak",           alt: "Oak external door — CGI colourway variant" },
 ];
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [navDown, setNavDown] = useState(false);
   const [cwIndex, setCwIndex] = useState(0);
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const cwRef = useRef<HTMLDivElement>(null);
-
-  const handleFormSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setFormSubmitted(true);
-  };
 
   const cwPrev = () => setCwIndex(i => Math.max(0, i - 1));
   const cwNext = () => setCwIndex(i => Math.min(COLOURWAY_SLIDES.length - 1, i + 1));
@@ -96,6 +89,20 @@ export default function Home() {
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
   }, [menuOpen]);
+
+  useEffect(() => {
+    const bgs = document.querySelectorAll<HTMLElement>(".benefit-bg");
+    const onScroll = () => {
+      bgs.forEach((bg) => {
+        const rect = bg.parentElement!.getBoundingClientRect();
+        const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+        bg.style.transform = `translateY(${center * 0.08}px)`;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const toggle = () => setMenuOpen((v) => !v);
 
@@ -363,21 +370,18 @@ export default function Home() {
 
         {/* Bottom row — 3 benefit items */}
         <div className="benefits-grid-bottom">
-          <div className="benefit-item wow" style={{backgroundImage: `url(${BASE}/images/Gemini_Generated_Image_c7yuslc7yuslc7yu12.jpg)`}}>
-            <span className="benefit-num">01</span>
-            <h3 className="benefit-title">Your full range. Done.</h3>
-            <p className="benefit-body">Every product, every finish, every colourway — all imaged. Not just the hero pieces. The products left out of catalogues because the cost per shot was too high can now all be shown.</p>
-          </div>
-          <div className="benefit-item wow" style={{backgroundImage: `url(${BASE}/images/image.jpeg)`}}>
-            <span className="benefit-num">02</span>
-            <h3 className="benefit-title">A fraction of the cost.</h3>
-            <p className="benefit-body">More images for your budget. What once meant choosing five shots can now mean covering your entire catalogue. The cost per image drops significantly — without the quality dropping with it.</p>
-          </div>
-          <div className="benefit-item wow" style={{backgroundImage: `url(${BASE}/images/image.png)`}}>
-            <span className="benefit-num">03</span>
-            <h3 className="benefit-title">Faster to market.</h3>
-            <p className="benefit-body">No set-builds, no shoot days, no location headaches. Compressed timelines mean new ranges get imaged quickly, seasonal updates are straightforward, and launches don&apos;t wait on photography.</p>
-          </div>
+          {[
+            { img: `${BASE}/images/Gemini_Generated_Image_c7yuslc7yuslc7yu12.jpg`, num: "01", title: "Your full range. Done.", body: "Every product, every finish, every colourway — all imaged. Not just the hero pieces. The products left out of catalogues because the cost per shot was too high can now all be shown." },
+            { img: `${BASE}/images/image.jpeg`, num: "02", title: "A fraction of the cost.", body: "More images for your budget. What once meant choosing five shots can now mean covering your entire catalogue. The cost per image drops significantly — without the quality dropping with it." },
+            { img: `${BASE}/images/image.png`, num: "03", title: "Faster to market.", body: "No set-builds, no shoot days, no location headaches. Compressed timelines mean new ranges get imaged quickly, seasonal updates are straightforward, and launches don't wait on photography." },
+          ].map(({ img, num, title, body }) => (
+            <div className="benefit-item wow" key={num}>
+              <div className="benefit-bg" style={{backgroundImage: `url(${img})`}} />
+              <span className="benefit-num">{num}</span>
+              <h3 className="benefit-title">{title}</h3>
+              <p className="benefit-body">{body}</p>
+            </div>
+          ))}
         </div>
 
       </section>
@@ -388,31 +392,22 @@ export default function Home() {
           <div className="expertise-images">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`${BASE}/images/ZN-46107-GLD_Day.jpeg`}
-              alt="Gold external door in daylight — Image Foundry CGI"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
               src={`${BASE}/images/MicrosoftTeams-image.png`}
               alt="White column radiator in styled living room — Image Foundry CGI"
             />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`${BASE}/images/33_Piazza_White_900x900_Porcelain_Paving_Hero.jpeg`}
-              alt="White porcelain paving in cottage garden — Image Foundry CGI"
+              src={`${BASE}/images/ZN-46107-GLD_Day.jpeg`}
+              alt="Gold external door in daylight — Image Foundry CGI"
             />
           </div>
           <div className="expertise-content">
             <div className="expertise-text wow">
               <span className="section-eyebrow">Why it matters who does this</span>
               <h2 className="section-h2">
-                THIS IS
+                THIS IS <span className="outline">CRAFT,</span>
                 <br />
-                <span className="outline">CRAFT,</span>
-                <br />
-                NOT A
-                <br />
-                SHORTCUT.
+                NOT A SHORTCUT.
               </h2>
               <p className="section-body" style={{ marginTop: "28px" }}>
                 Dropping a product into an AI tool and pressing go produces generic
@@ -458,30 +453,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TRUSTED BY — after expertise */}
-      <div className="section-logos">
-        <p className="logos-label">Trusted by leading brands</p>
-        <div className="logos-row">
-          {[
-            { src: `${BASE}/images/logos/strata.png`,        alt: "Strata" },
-            { src: `${BASE}/images/logos/irsap-1.png`,       alt: "Irsap" },
-            { src: `${BASE}/images/logos/geberit.png`,       alt: "Geberit" },
-            { src: `${BASE}/images/logos/ideal-standard.png`,alt: "Ideal Standard" },
-            { src: `${BASE}/images/logos/franke.png`,        alt: "Franke" },
-            { src: `${BASE}/images/logos/m-s.png`,           alt: "M&S" },
-            { src: `${BASE}/images/logos/b-q.png`,           alt: "B&Q" },
-            { src: `${BASE}/images/logos/bbc.png`,           alt: "BBC" },
-            { src: `${BASE}/images/logos/vistry-group.png`,  alt: "Vistry Group" },
-            { src: `${BASE}/images/logos/amtico.png`,        alt: "Amtico" },
-            { src: `${BASE}/images/logos/barratt.png`,       alt: "Barratt" },
-            { src: `${BASE}/images/logos/wienerberger.png`,  alt: "Wienerberger" },
-          ].map(({ src, alt }) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={`e-${alt}`} src={src} alt={alt} className="client-logo" />
-          ))}
-        </div>
-      </div>
-
       {/* GALLERY */}
       <section className="section-gallery">
         <div className="gallery-header wow">
@@ -501,23 +472,14 @@ export default function Home() {
         <div className="gallery-grid">
           {[
             { img: `${BASE}/images/ZN-46096-BLCK_Dusk.jpeg`,                          alt: "Black Georgian front door at dusk — exterior lighting CGI",        tag: "External Doors — Georgian" },
-            { img: `${BASE}/images/MicrosoftTeams-image.png`,                          alt: "White column radiator in styled grey living room — CGI",            tag: "Radiators" },
+            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(3).jpeg`,  alt: "Designer desk setup with monitor — Image Foundry CGI",            tag: "Home Office" },
             { img: `${BASE}/images/SKU_2_1_rev001.jpg`,                                alt: "White basin on marble counter in dark tiled bathroom — CGI",        tag: "Bathroom" },
             { img: `${BASE}/images/Output1.jpg`,                                        alt: "Brass pendant light in styled kitchen utility room — CGI",          tag: "Lighting" },
-            { img: `${BASE}/images/33_Piazza_White_900x900_Porcelain_Paving_Hero.jpeg`, alt: "White porcelain paving in cottage garden — CGI",                   tag: "Flooring & Paving" },
-            { img: `${BASE}/images/123_Agata_Antica_Clay_Pavers_Hero_1.png`,            alt: "Herringbone clay pavers on residential driveway — CGI",             tag: "External Paving" },
+            { img: `${BASE}/images/image1.png`,                                          alt: "Garden decking with outdoor furniture — CGI",                      tag: "Outdoor Living" },
+            { img: `${BASE}/images/image11.png`,                                         alt: "Garden path with lavender planting — CGI",                         tag: "External Paving" },
             { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(1).jpeg`,  alt: "Luxury bathroom with marble tiles — Image Foundry CGI",           tag: "Bathroom" },
             { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(2).jpeg`,  alt: "Breville toaster and kettle in kitchen — Image Foundry CGI",      tag: "Kitchen Appliances" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(3).jpeg`,  alt: "Designer desk setup with monitor — Image Foundry CGI",            tag: "Home Office" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(1).png`,   alt: "Cordless vacuum cleaner in living room — Image Foundry CGI",      tag: "Home & Living" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(2).png`,   alt: "Breville hot water dispenser in kitchen — Image Foundry CGI",     tag: "Kitchen Appliances" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(3).png`,   alt: "Roller blind in bright window seat room — Image Foundry CGI",     tag: "Window Treatments" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(4).png`,   alt: "Breville coffee machine on worktop — Image Foundry CGI",          tag: "Kitchen Appliances" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(5).png`,   alt: "Log burner fireplace in living room — Image Foundry CGI",         tag: "Heating" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(6).png`,   alt: "Office pod workstations — Image Foundry CGI",                     tag: "Office Furniture" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(7).png`,   alt: "Wooden writing desk in bright room — Image Foundry CGI",          tag: "Furniture" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(8).png`,   alt: "Air fryer on kitchen worktop — Image Foundry CGI",                tag: "Kitchen Appliances" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(9).png`,   alt: "Marble bathroom basin and tap — Image Foundry CGI",               tag: "Bathroom" },
+            { img: `${BASE}/images/MicrosoftTeams-image.png`,                          alt: "White column radiator in styled grey living room — CGI",            tag: "Radiators" },
           ].map(({ img, alt }) => (
             <div className="gi" key={alt}>
               <div className="gi-inner">
@@ -553,6 +515,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* TRUSTED BY — above contact form */}
+      <div className="section-logos section-logos-padded">
+        <p className="logos-label">Trusted by leading brands</p>
+        <div className="logos-row">
+          {[
+            { src: `${BASE}/images/logos/strata.png`,        alt: "Strata" },
+            { src: `${BASE}/images/logos/irsap-1.png`,       alt: "Irsap" },
+            { src: `${BASE}/images/logos/geberit.png`,       alt: "Geberit" },
+            { src: `${BASE}/images/logos/ideal-standard.png`,alt: "Ideal Standard" },
+            { src: `${BASE}/images/logos/franke.png`,        alt: "Franke" },
+            { src: `${BASE}/images/logos/m-s.png`,           alt: "M&S" },
+            { src: `${BASE}/images/logos/b-q.png`,           alt: "B&Q" },
+            { src: `${BASE}/images/logos/bbc.png`,           alt: "BBC" },
+            { src: `${BASE}/images/logos/vistry-group.png`,  alt: "Vistry Group" },
+            { src: `${BASE}/images/logos/amtico.png`,        alt: "Amtico" },
+            { src: `${BASE}/images/logos/barratt.png`,       alt: "Barratt" },
+            { src: `${BASE}/images/logos/wienerberger.png`,  alt: "Wienerberger" },
+          ].map(({ src, alt }) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={`e-${alt}`} src={src} alt={alt} className="client-logo" />
+          ))}
+        </div>
+      </div>
+
       {/* CONTACT FORM */}
       <section className="section-contact">
         <div className="contact-inner">
@@ -561,7 +547,7 @@ export default function Home() {
             <h2 className="section-h2">START THE<br/><span className="outline">CONVERSATION.</span></h2>
             <p className="section-body">Tell us about your product range and we&apos;ll show you exactly what&apos;s possible — no commitment required.</p>
           </div>
-          <form className="contact-form wow" onSubmit={handleFormSubmit}>
+          <form className="contact-form wow" action={`${BASE}/thank-you`} method="GET">
             <div className="cf-row">
               <div className="cf-field">
                 <label htmlFor="cf-name">Name</label>
@@ -665,18 +651,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-      {/* THANK YOU POPUP */}
-      {formSubmitted && (
-        <div className="popup-overlay" onClick={() => setFormSubmitted(false)}>
-          <div className="popup-box" onClick={e => e.stopPropagation()}>
-            <button className="popup-close" onClick={() => setFormSubmitted(false)}>&#x2715;</button>
-            <div className="popup-icon">✓</div>
-            <h3 className="popup-heading">Thank you!</h3>
-            <p className="popup-body">We&apos;ve received your message and will be in touch within 24 hours.</p>
-            <a href="https://www.imagefoundry.co.uk/" className="popup-btn">Explore Our Work</a>
-          </div>
-        </div>
-      )}
     </>
   );
 }
