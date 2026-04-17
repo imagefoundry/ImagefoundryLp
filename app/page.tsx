@@ -3,8 +3,92 @@
 import { useEffect, useRef, useState } from "react";
 import "./landing.css";
 
+const EMAILJS_SERVICE  = "service_7mh49ll";
+const EMAILJS_TEMPLATE = "template_41uecaj";
+const EMAILJS_KEY      = "59R6alpkOM4DFZCqV";
+
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+// Module-level — survives React cleanup and bfcache restore
+let _setNavDown: ((v: boolean) => void) | undefined;
+
+const menuToggle = () => {
+  const sf     = document.querySelector(".sf");
+  const header = document.querySelector("header");
+  const burger = document.querySelector(".sf-burger") as HTMLElement | null;
+  const nav    = document.querySelector("header nav") as HTMLElement | null;
+  const isOpen = sf?.classList.contains("nav-open-active");
+  if (isOpen) {
+    sf?.classList.remove("nav-open-active");
+    header?.classList.remove("nav-open-state");
+    if (burger) burger.style.display = "";
+    if (nav) nav.style.display = "none";
+    document.body.style.overflow = "";
+  } else {
+    sf?.classList.add("nav-open-active");
+    header?.classList.add("nav-open-state");
+    if (burger) burger.style.display = "none";
+    if (nav) nav.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+};
+
+const menuClose = () => {
+  const sf     = document.querySelector(".sf");
+  const header = document.querySelector("header");
+  const burger = document.querySelector(".sf-burger") as HTMLElement | null;
+  const nav    = document.querySelector("header nav") as HTMLElement | null;
+  sf?.classList.remove("nav-open-active");
+  header?.classList.remove("nav-open-state");
+  if (burger) burger.style.display = "";
+  if (nav) nav.style.display = "none";
+  document.body.style.overflow = "";
+};
+
+if (typeof window !== "undefined") {
+  const onNavScroll = () => {
+    const down = window.scrollY > 60;
+    _setNavDown?.(down);
+    document.querySelector(".sf")?.classList.toggle("nav-is-down", down);
+  };
+  const setupNavScroll = () => {
+    window.removeEventListener("scroll", onNavScroll);
+    window.addEventListener("scroll", onNavScroll, { passive: true });
+    onNavScroll();
+  };
+  const setupBurger = () => {
+    const burger = document.querySelector(".sf-burger");
+    if (burger) {
+      burger.removeEventListener("click", menuToggle);
+      burger.addEventListener("click", menuToggle);
+    }
+    // Also wire all close triggers inside the nav
+    document.querySelectorAll(".nav-close, .nav-primary a, .nav-industries-grid a").forEach((el) => {
+      el.removeEventListener("click", menuClose);
+      el.addEventListener("click", menuClose);
+    });
+  };
+  const setupEsc = () => {
+    document.removeEventListener("keyup", _onKeyUp);
+    document.addEventListener("keyup", _onKeyUp);
+  };
+
+  setupNavScroll();
+  setupEsc();
+  document.addEventListener("DOMContentLoaded", setupBurger);
+
+  window.addEventListener("pageshow", (e) => {
+    setupNavScroll();
+    setupBurger();
+    setupEsc();
+    if (e.persisted) menuClose();
+  });
+}
+
+function _onKeyUp(e: KeyboardEvent) {
+  if (e.key === "Escape") menuClose();
+}
 
 const COLOURWAY_SLIDES = [
   { img: `${BASE}/images/red.jpg`,          label: "Colourway: Signal Red",    alt: "Red external door — CGI colourway variant" },
@@ -17,10 +101,39 @@ const COLOURWAY_SLIDES = [
 ];
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [navDown, setNavDown] = useState(false);
+  const sfRef = useRef<HTMLDivElement>(null);
+  const burgerRef = useRef<HTMLDivElement>(null);
+  _setNavDown = setNavDown;
   const [cwIndex, setCwIndex] = useState(0);
+  const [sending, setSending] = useState(false);
   const cwRef = useRef<HTMLDivElement>(null);
+
+  const handleFormSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSending(true);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const emailjs = (window as any).emailjs;
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE,
+        EMAILJS_TEMPLATE,
+        {
+          from_name: data.get("Name"),
+          company:   data.get("Company"),
+          reply_to:  data.get("Email"),
+          message:   data.get("Message"),
+        },
+        EMAILJS_KEY
+      );
+      window.location.href = `${BASE}/thank-you`;
+    } catch {
+      alert("Something went wrong. Please call us on 0161 302 1580.");
+      setSending(false);
+    }
+  };
 
   const cwPrev = () => setCwIndex(i => Math.max(0, i - 1));
   const cwNext = () => setCwIndex(i => Math.min(COLOURWAY_SLIDES.length - 1, i + 1));
@@ -70,25 +183,22 @@ export default function Home() {
       },
       { threshold: 0.12 }
     );
-    document.querySelectorAll(".wow").forEach((el) => observer.observe(el));
+    const wowEls = document.querySelectorAll(".wow");
 
-    const onKeyUp = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
-    };
-    const onScroll = () => setNavDown(window.scrollY > 60);
+    wowEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      // Only animate elements that start below the viewport
+      if (rect.top >= window.innerHeight) {
+        el.classList.add("animate-ready");
+        observer.observe(el);
+      }
+    });
 
-    document.addEventListener("keyup", onKeyUp);
-    window.addEventListener("scroll", onScroll);
     return () => {
       observer.disconnect();
-      document.removeEventListener("keyup", onKeyUp);
-      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-  }, [menuOpen]);
 
   useEffect(() => {
     const bgs = document.querySelectorAll<HTMLElement>(".benefit-bg");
@@ -104,26 +214,24 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggle = () => setMenuOpen((v) => !v);
-
   return (
     <>
+      {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+      <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
       {/* STICKY FLOAT — burger + phone + contact btn, always fixed top-right */}
-      <div className={`sf${navDown ? " nav-is-down" : ""}${menuOpen ? " nav-open-active" : ""}`}>
+      <div ref={sfRef} className={`sf${navDown ? " nav-is-down" : ""}`}>
         <div className="sf-top-row">
           <div className="sf-contact">
             <a href="tel:01613021580">0161 302 1580</a>
           </div>
-          {!menuOpen && (
-            <div
-              className="sf-burger"
-              onClick={toggle}
-              role="button"
-              aria-label="Open menu"
-            >
-              <span></span>
-            </div>
-          )}
+          <div
+            ref={burgerRef}
+            className="sf-burger"
+            role="button"
+            aria-label="Open menu"
+          >
+            <span></span>
+          </div>
         </div>
         <div className="sf-contact-btn">
           <a href="https://www.imagefoundry.co.uk/contact-us/">Contact Us</a>
@@ -131,7 +239,7 @@ export default function Home() {
       </div>
 
       {/* HEADER */}
-      <header className={menuOpen ? "nav-open-state" : ""}>
+      <header className="">
         <div className="sticky-bar">
           <div className="bi">
             <a href="https://www.imagefoundry.co.uk/">
@@ -142,7 +250,7 @@ export default function Home() {
         </div>
 
         {/* Full-screen nav */}
-        <nav style={{ display: menuOpen ? "block" : "none" }}>
+        <nav style={{ display: "none" }}>
           <div className="nav-row">
 
             {/* Left — industries grid */}
@@ -164,7 +272,7 @@ export default function Home() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={img} alt={label} />
                     <figcaption>
-                      <h3><a href={href} onClick={toggle}>{label.toUpperCase()}</a></h3>
+                      <h3><a href={href} onClick={menuClose}>{label.toUpperCase()}</a></h3>
                     </figcaption>
                   </figure>
                 ))}
@@ -173,15 +281,15 @@ export default function Home() {
 
             {/* Right — black nav panel */}
             <div className="nav-list">
-              <button className="nav-close" onClick={toggle} aria-label="Close menu">&#x2715;</button>
+              <button className="nav-close" onClick={menuClose} aria-label="Close menu">&#x2715;</button>
 
               <ul className="nav-primary">
-                <li><a href="https://www.imagefoundry.co.uk/about-us/" onClick={toggle}>About</a></li>
-                <li className="active"><a href="https://www.imagefoundry.co.uk/your-industry/" onClick={toggle}>Your Industry</a></li>
-                <li><a href="https://www.imagefoundry.co.uk/case-studies/" onClick={toggle}>Case Studies</a></li>
-                <li><a href="https://www.imagefoundry.co.uk/insights/" onClick={toggle}>Insights</a></li>
-                <li><a href="https://www.imagefoundry.co.uk/process/" onClick={toggle}>Our Process</a></li>
-                <li><a href="https://www.imagefoundry.co.uk/contact-us/" onClick={toggle}>Contact Us</a></li>
+                <li><a href="https://www.imagefoundry.co.uk/about-us/" onClick={menuClose}>About</a></li>
+                <li className="active"><a href="https://www.imagefoundry.co.uk/your-industry/" onClick={menuClose}>Your Industry</a></li>
+                <li><a href="https://www.imagefoundry.co.uk/case-studies/" onClick={menuClose}>Case Studies</a></li>
+                <li><a href="https://www.imagefoundry.co.uk/insights/" onClick={menuClose}>Insights</a></li>
+                <li><a href="https://www.imagefoundry.co.uk/process/" onClick={menuClose}>Our Process</a></li>
+                <li><a href="https://www.imagefoundry.co.uk/contact-us/" onClick={menuClose}>Contact Us</a></li>
               </ul>
               <div className="nav-secondary">
                 <ul>
@@ -247,6 +355,30 @@ export default function Home() {
         <div className="stat-item">
           <span className="stat-num" data-count="500" data-suffix="+">500+</span>
           <span className="stat-label">SKUs Imaged Per Project</span>
+        </div>
+      </div>
+
+      {/* CLIENT LOGOS */}
+      <div className="section-logos">
+        <p className="logos-label">Trusted by leading brands</p>
+        <div className="logos-row">
+          {[
+            { src: `${BASE}/images/logos/strata.png`,        alt: "Strata" },
+            { src: `${BASE}/images/logos/irsap-1.png`,       alt: "Irsap" },
+            { src: `${BASE}/images/logos/geberit.png`,       alt: "Geberit" },
+            { src: `${BASE}/images/logos/ideal-standard.png`,alt: "Ideal Standard" },
+            { src: `${BASE}/images/logos/franke.png`,        alt: "Franke" },
+            { src: `${BASE}/images/logos/m-s.png`,           alt: "M&S" },
+            { src: `${BASE}/images/logos/b-q.png`,           alt: "B&Q" },
+            { src: `${BASE}/images/logos/bbc.png`,           alt: "BBC" },
+            { src: `${BASE}/images/logos/vistry-group.png`,  alt: "Vistry Group" },
+            { src: `${BASE}/images/logos/amtico.png`,        alt: "Amtico" },
+            { src: `${BASE}/images/logos/barratt.png`,       alt: "Barratt" },
+            { src: `${BASE}/images/logos/wienerberger.png`,  alt: "Wienerberger" },
+          ].map(({ src, alt }) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={alt} src={src} alt={alt} className="client-logo" />
+          ))}
         </div>
       </div>
 
@@ -547,7 +679,7 @@ export default function Home() {
             <h2 className="section-h2">START THE<br/><span className="outline">CONVERSATION.</span></h2>
             <p className="section-body">Tell us about your product range and we&apos;ll show you exactly what&apos;s possible — no commitment required.</p>
           </div>
-          <form className="contact-form wow" action={`${BASE}/thank-you`} method="GET">
+          <form className="contact-form wow" onSubmit={handleFormSubmit}>
             <div className="cf-row">
               <div className="cf-field">
                 <label htmlFor="cf-name">Name</label>
@@ -566,7 +698,7 @@ export default function Home() {
               <label htmlFor="cf-message">Message</label>
               <textarea id="cf-message" name="Message" rows={4} placeholder="Tell us about your product range..." />
             </div>
-            <button type="submit" className="cf-submit">Send Message</button>
+            <button type="submit" className="cf-submit" disabled={sending}>{sending ? "Sending…" : "Send Message"}</button>
           </form>
         </div>
       </section>
