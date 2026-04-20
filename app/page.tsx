@@ -91,13 +91,13 @@ function _onKeyUp(e: KeyboardEvent) {
 }
 
 const COLOURWAY_SLIDES = [
-  { img: `${BASE}/images/red.jpg`,          label: "Colourway: Signal Red",    alt: "Red external door — CGI colourway variant" },
-  { img: `${BASE}/images/blue.jpeg`,        label: "Colourway: Steel Blue",    alt: "Blue external door — CGI colourway variant" },
-  { img: `${BASE}/images/dark%20green.png`, label: "Colourway: Racing Green",  alt: "Racing green external door — CGI colourway variant" },
-  { img: `${BASE}/images/yellow.png`,       label: "Colourway: Yellow",        alt: "Yellow external door — CGI colourway variant" },
-  { img: `${BASE}/images/anthracite.png`,   label: "Colourway: Anthracite",    alt: "Anthracite external door — CGI colourway variant" },
-  { img: `${BASE}/images/teal.png`,         label: "Colourway: Teal",          alt: "Teal external door — CGI colourway variant" },
-  { img: `${BASE}/images/oak.png`,          label: "Colourway: Oak",           alt: "Oak external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-red.jpg`,          label: "Colourway: Signal Red",    alt: "Red external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-blue.jpeg`,        label: "Colourway: Steel Blue",    alt: "Blue external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-dark-green.png`, label: "Colourway: Racing Green",  alt: "Racing green external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-yellow.png`,       label: "Colourway: Yellow",        alt: "Yellow external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-anthracite.png`,   label: "Colourway: Anthracite",    alt: "Anthracite external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-teal.png`,         label: "Colourway: Teal",          alt: "Teal external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-oak.png`,          label: "Colourway: Oak",           alt: "Oak external door — CGI colourway variant" },
 ];
 
 export default function Home() {
@@ -244,7 +244,7 @@ export default function Home() {
           <div className="bi">
             <a href="https://www.imagefoundry.co.uk/">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`${BASE}/images/if-logo.svg`} alt="Image Foundry" />
+              <img src={`${BASE}/images/logos/if-logo.svg`} alt="Image Foundry" />
             </a>
           </div>
         </div>
@@ -261,12 +261,12 @@ export default function Home() {
               </div>
               <div className="nav-industries-grid">
                 {[
-                  { label: "Interiors",  img: `${BASE}/images/1.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/interiors/" },
-                  { label: "Bathrooms",  img: `${BASE}/images/SKU_2_1_rev001.jpg`, href: "https://www.imagefoundry.co.uk/industry/bathrooms/" },
-                  { label: "Products",   img: `${BASE}/images/SKU_10_2.png`,        href: "https://www.imagefoundry.co.uk/industry/product/" },
-                  { label: "Kitchens",   img: `${BASE}/images/3.jpg`,              href: "https://www.imagefoundry.co.uk/industry/kitchen/" },
-                  { label: "Bedrooms",   img: `${BASE}/images/6.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/bedrooms/" },
-                  { label: "Property",   img: `${BASE}/images/9.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/property/" },
+                  { label: "Interiors",  img: `${BASE}/images/industry/interiors-living-room.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/interiors/" },
+                  { label: "Bathrooms",  img: `${BASE}/images/industry/bathroom-basin.jpg`, href: "https://www.imagefoundry.co.uk/industry/bathrooms/" },
+                  { label: "Products",   img: `${BASE}/images/industry/product-shot.png`,        href: "https://www.imagefoundry.co.uk/industry/product/" },
+                  { label: "Kitchens",   img: `${BASE}/images/industry/kitchen-interior.jpg`,              href: "https://www.imagefoundry.co.uk/industry/kitchen/" },
+                  { label: "Bedrooms",   img: `${BASE}/images/industry/bedroom-interior.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/bedrooms/" },
+                  { label: "Property",   img: `${BASE}/images/industry/property-exterior.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/property/" },
                 ].map(({ label, img, href }) => (
                   <figure key={label}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -313,7 +313,7 @@ export default function Home() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="hero-img"
-          src={`${BASE}/images/8.jpg`}
+          src={`${BASE}/images/hero/hero-door.jpg`}
           alt="Black external door on ivy-covered red brick house — CGI product in AI-generated environment"
         />
         <div className="hero-overlay"></div>
@@ -358,33 +358,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* CLIENT LOGOS */}
-      <div className="section-logos">
-        <p className="logos-label">Trusted by leading brands</p>
-        <div className="logos-row">
-          {[
-            { src: `${BASE}/images/logos/strata.png`,        alt: "Strata" },
-            { src: `${BASE}/images/logos/irsap-1.png`,       alt: "Irsap" },
-            { src: `${BASE}/images/logos/geberit.png`,       alt: "Geberit" },
-            { src: `${BASE}/images/logos/ideal-standard.png`,alt: "Ideal Standard" },
-            { src: `${BASE}/images/logos/franke.png`,        alt: "Franke" },
-            { src: `${BASE}/images/logos/m-s.png`,           alt: "M&S" },
-            { src: `${BASE}/images/logos/b-q.png`,           alt: "B&Q" },
-            { src: `${BASE}/images/logos/bbc.png`,           alt: "BBC" },
-            { src: `${BASE}/images/logos/vistry-group.png`,  alt: "Vistry Group" },
-            { src: `${BASE}/images/logos/amtico.png`,        alt: "Amtico" },
-            { src: `${BASE}/images/logos/barratt.png`,       alt: "Barratt" },
-            { src: `${BASE}/images/logos/wienerberger.png`,  alt: "Wienerberger" },
-          ].map(({ src, alt }) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={alt} src={src} alt={alt} className="client-logo" />
-          ))}
-        </div>
-      </div>
-
       {/* THE SHIFT */}
       <section className="section-split" id="shift">
-        <div className="split-text wow">
+        <div className="split-text wow" style={{ paddingRight: "20%" }}>
           <span className="section-eyebrow">The shift</span>
           <h2 className="section-h2">
             MORE PRODUCTS.
@@ -409,7 +385,7 @@ export default function Home() {
         <div className="split-image">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={`${BASE}/images/1.jpeg`}
+            src={`${BASE}/images/industry/interiors-living-room.jpeg`}
             alt="Contemporary hallway with open black internal door — Image Foundry CGI"
           />
         </div>
@@ -490,22 +466,23 @@ export default function Home() {
             </h2>
           </div>
           <div className="benefits-video-wrap wow">
-            <div className="benefits-video-placeholder">
-              <div className="bvp-inner">
-                <div className="bvp-icon">▶</div>
-                <p className="bvp-label">Animation coming soon</p>
-                <p className="bvp-sub">Split-screen explainer showing the commercial difference between traditional photography and the Image Foundry approach.</p>
-              </div>
-            </div>
+            <video
+              className="benefits-video"
+              src={`${BASE}/videos/benefits-explainer.mp4`}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
           </div>
         </div>
 
         {/* Bottom row — 3 benefit items */}
         <div className="benefits-grid-bottom">
           {[
-            { img: `${BASE}/images/Gemini_Generated_Image_c7yuslc7yuslc7yu12.jpg`, num: "01", title: "Your full range. Done.", body: "Every product, every finish, every colourway — all imaged. Not just the hero pieces. The products left out of catalogues because the cost per shot was too high can now all be shown." },
-            { img: `${BASE}/images/image.jpeg`, num: "02", title: "A fraction of the cost.", body: "More images for your budget. What once meant choosing five shots can now mean covering your entire catalogue. The cost per image drops significantly — without the quality dropping with it." },
-            { img: `${BASE}/images/image.png`, num: "03", title: "Faster to market.", body: "No set-builds, no shoot days, no location headaches. Compressed timelines mean new ranges get imaged quickly, seasonal updates are straightforward, and launches don't wait on photography." },
+            { img: `${BASE}/images/benefits/benefit-full-range.jpeg`, num: "01", title: "Your full range. Done.", body: "Every product, every finish, every colourway — all imaged. Not just the hero pieces. The products left out of catalogues because the cost per shot was too high can now all be shown." },
+            { img: `${BASE}/images/benefits/benefit-fraction-cost.jpeg`, num: "02", title: "A fraction of the cost.", body: "More images for your budget. What once meant choosing five shots can now mean covering your entire catalogue. The cost per image drops significantly — without the quality dropping with it." },
+            { img: `${BASE}/images/benefits/benefit-faster-market.jpeg`, num: "03", title: "Faster to market.", body: "No set-builds, no shoot days, no location headaches. Compressed timelines mean new ranges get imaged quickly, seasonal updates are straightforward, and launches don't wait on photography." },
           ].map(({ img, num, title, body }) => (
             <div className="benefit-item wow" key={num}>
               <div className="benefit-bg" style={{backgroundImage: `url(${img})`}} />
@@ -524,12 +501,7 @@ export default function Home() {
           <div className="expertise-images">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`${BASE}/images/MicrosoftTeams-image.png`}
-              alt="White column radiator in styled living room — Image Foundry CGI"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`${BASE}/images/ZN-46107-GLD_Day.jpeg`}
+              src={`${BASE}/images/industry/door-gold-day.jpeg`}
               alt="Gold external door in daylight — Image Foundry CGI"
             />
           </div>
@@ -603,15 +575,21 @@ export default function Home() {
         </div>
         <div className="gallery-grid">
           {[
-            { img: `${BASE}/images/ZN-46096-BLCK_Dusk.jpeg`,                          alt: "Black Georgian front door at dusk — exterior lighting CGI",        tag: "External Doors — Georgian" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(3).jpeg`,  alt: "Designer desk setup with monitor — Image Foundry CGI",            tag: "Home Office" },
-            { img: `${BASE}/images/SKU_2_1_rev001.jpg`,                                alt: "White basin on marble counter in dark tiled bathroom — CGI",        tag: "Bathroom" },
-            { img: `${BASE}/images/Output1.jpg`,                                        alt: "Brass pendant light in styled kitchen utility room — CGI",          tag: "Lighting" },
-            { img: `${BASE}/images/image1.png`,                                          alt: "Garden decking with outdoor furniture — CGI",                      tag: "Outdoor Living" },
-            { img: `${BASE}/images/image11.png`,                                         alt: "Garden path with lavender planting — CGI",                         tag: "External Paving" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(1).jpeg`,  alt: "Luxury bathroom with marble tiles — Image Foundry CGI",           tag: "Bathroom" },
-            { img: `${BASE}/images/CGI%20-%20Ai%20Images%20for%20website/IMage%20Foundry%20AI%20product%20shot%20%20(2).jpeg`,  alt: "Breville toaster and kettle in kitchen — Image Foundry CGI",      tag: "Kitchen Appliances" },
-            { img: `${BASE}/images/MicrosoftTeams-image.png`,                          alt: "White column radiator in styled grey living room — CGI",            tag: "Radiators" },
+            { img: `${BASE}/images/gallery/door-black-georgian-dusk.jpeg`,                          alt: "Black Georgian front door at dusk — exterior lighting CGI",        tag: "External Doors — Georgian" },
+            { img: `${BASE}/images/gallery/gallery-home-office.jpeg`,  alt: "Designer desk setup with monitor — Image Foundry CGI",            tag: "Home Office" },
+            { img: `${BASE}/images/industry/bathroom-basin.jpg`,                                alt: "White basin on marble counter in dark tiled bathroom — CGI",        tag: "Bathroom" },
+            { img: `${BASE}/images/gallery/lighting-pendant.jpg`,                                        alt: "Brass pendant light in styled kitchen utility room — CGI",          tag: "Lighting" },
+            { img: `${BASE}/images/gallery/outdoor-decking.png`,                                          alt: "Garden decking with outdoor furniture — CGI",                      tag: "Outdoor Living" },
+            { img: `${BASE}/images/gallery/external-paving-path.png`,                                         alt: "Garden path with lavender planting — CGI",                         tag: "External Paving" },
+            { img: `${BASE}/images/gallery/gallery-bathroom-marble.jpeg`,  alt: "Luxury bathroom with marble tiles — Image Foundry CGI",           tag: "Bathroom" },
+            { img: `${BASE}/images/gallery/gallery-kitchen-appliances.jpeg`,  alt: "Breville toaster and kettle in kitchen — Image Foundry CGI",      tag: "Kitchen Appliances" },
+            { img: `${BASE}/images/gallery/radiator-living-room.png`,                          alt: "White column radiator in styled grey living room — CGI",            tag: "Radiators" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-3a.png`,    alt: "Product lifestyle image 3a — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-3b.png`,    alt: "Product lifestyle image 3b — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-4c.jpeg`,   alt: "Product lifestyle image 4c — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-4a.png`,    alt: "Product lifestyle image 4a — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-4b.png`,    alt: "Product lifestyle image 4b — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-3c.png`,    alt: "Product lifestyle image 3c — Image Foundry CGI",                   tag: "CGI + AI" },
           ].map(({ img, alt }) => (
             <div className="gi" key={alt}>
               <div className="gi-inner">
