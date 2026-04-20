@@ -1479,6 +1479,8 @@ footer {
 
 .footer-lets-talk {
   display: inline-block;
+  min-width: 200px;
+  text-align: center;
   background: #fff;
   color: #000;
   font-size: 15px;
