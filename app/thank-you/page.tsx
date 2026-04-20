@@ -8,7 +8,7 @@ export default function ThankYou() {
       {/* Logo */}
       <div className="thankyou-logo">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${BASE}/images/if-logo.svg`} alt="Image Foundry" />
+        <img src={`${BASE}/images/logos/if-logo.svg`} alt="Image Foundry" />
       </div>
 
       <div className="thankyou-content">

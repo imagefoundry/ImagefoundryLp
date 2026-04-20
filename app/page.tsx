@@ -123,7 +123,7 @@ export default function Home() {
         {
           from_name: data.get("Name"),
           company:   data.get("Company"),
-          reply_to:  data.get("Email"),
+          email:     data.get("Email"),
           message:   data.get("Message"),
         },
         EMAILJS_KEY
@@ -313,7 +313,7 @@ export default function Home() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="hero-img"
-          src={`${BASE}/images/hero/hero-door.jpg`}
+          src={`${BASE}/images/colourways/colourway-red.jpg`}
           alt="Black external door on ivy-covered red brick house — CGI product in AI-generated environment"
         />
         <div className="hero-overlay"></div>
@@ -702,63 +702,34 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer>
-        <div className="footer-grid">
-          <div className="footer-logo-block">
-            <div>
-              <div className="footer-logo-mark">F</div>
-              <div className="footer-logo-name">Image Foundry</div>
-              <div className="footer-logo-tagline">Persuasive CGI</div>
+        <div className="footer-inner">
+          {/* Logo + CTA — rows 1-2, col 1 */}
+          <div className="footer-col--logo">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`${BASE}/images/logos/if-logo.svg`} alt="Image Foundry" className="footer-logo-img" />
+            <div className="footer-contact">
+              <a href="https://www.imagefoundry.co.uk/contact-us/" className="footer-lets-talk">Let&apos;s talk</a>
             </div>
-            <h3 className="footer-cta-heading">READY TO IMAGE<br/>YOUR FULL RANGE?</h3>
-            <p className="footer-cta-sub">Let&apos;s start with a conversation about your products and what you&apos;re trying to achieve.</p>
-            <a
-              href="https://www.imagefoundry.co.uk/contact-us/"
-              className="footer-lets-talk"
-            >
-              Let&apos;s talk
-            </a>
           </div>
-          <nav>
-            <ul className="footer-nav">
-              <li>
-                <a href="https://www.imagefoundry.co.uk/about-us/">
-                  Who We Are
-                </a>
-              </li>
-              <li>
-                <a href="https://www.imagefoundry.co.uk/insights/">Insights</a>
-              </li>
-              <li>
-                <a href="https://www.imagefoundry.co.uk/process/">
-                  Our Process
-                </a>
-              </li>
-              <li>
-                <a href="https://www.imagefoundry.co.uk/contact-us/">
-                  Contact Us
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div className="footer-legal">
-            <a href="https://www.imagefoundry.co.uk/privacy-policy/privacy-policy/">
-              Privacy
-            </a>
-            <a href="#">Cookies</a>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <div className="footer-copy">
-            &copy; {new Date().getFullYear()} Image Foundry Studios Ltd. All rights reserved.
-          </div>
-          <div className="footer-social">
-            <a href="https://www.instagram.com/imagefoundrystudios/">
-              Instagram
-            </a>
-            <a href="https://www.linkedin.com/company/image-foundry-studios/">
-              LinkedIn
-            </a>
-          </div>
+          {/* Empty spacer col */}
+          <div className="footer-col--gap" />
+          {/* Nav links — row 1, col 3 */}
+          <ul className="footer-links-large">
+            <li><a href="https://www.imagefoundry.co.uk/about-us/">WHO WE ARE</a></li>
+            <li><a href="https://www.imagefoundry.co.uk/insights/">INSIGHTS</a></li>
+            <li><a href="https://www.imagefoundry.co.uk/process/">OUR PROCESS</a></li>
+            <li><a href="https://www.imagefoundry.co.uk/contact-us/">CONTACT US</a></li>
+          </ul>
+          {/* Legal — row 1, col 4 */}
+          <ul className="footer-links-small">
+            <li><a href="https://www.imagefoundry.co.uk/privacy-policy/privacy-policy/">Privacy</a></li>
+            <li><a href="#">Cookies</a></li>
+          </ul>
+          {/* Social — row 2, col 3 spans to col 4 */}
+          <ul className="footer-social-links">
+            <li><a href="https://www.instagram.com/imagefoundrystudios/">Instagram</a></li>
+            <li><a href="https://www.linkedin.com/company/image-foundry-studios/">LinkedIn</a></li>
+          </ul>
         </div>
       </footer>
     </>
