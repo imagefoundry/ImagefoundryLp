@@ -17,6 +17,29 @@
 /.next/
 /out/
 
+# static export output (root-level)
+/_next/
+/images/
+/videos/
+/index.html
+/index.txt
+/404.html
+/_not-found/
+/_not-found.html
+/_not-found.txt
+/thank-you/
+/thank-you.html
+/thank-you.txt
+/out.zip
+/favicon.ico
+/file.svg
+/globe.svg
+/next.svg
+/vercel.svg
+/window.svg
+/__next.*
+/*.txt
+
 # production
 /build
 
