@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./landing.css";
 
-const EMAILJS_SERVICE  = "service_7mh49ll";
+const EMAILJS_SERVICE  = "service_nyex4pe";
 const EMAILJS_TEMPLATE = "template_41uecaj";
 const EMAILJS_KEY      = "59R6alpkOM4DFZCqV";
 
@@ -116,6 +116,7 @@ export default function Home() {
     const data = new FormData(form);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const emailjs = (window as any).emailjs;
+    emailjs.init({ publicKey: EMAILJS_KEY });
     try {
       await emailjs.send(
         EMAILJS_SERVICE,
@@ -125,8 +126,7 @@ export default function Home() {
           company:   data.get("Company"),
           email:     data.get("Email"),
           message:   data.get("Message"),
-        },
-        EMAILJS_KEY
+        }
       );
       window.location.href = `${BASE}/thank-you`;
     } catch {
@@ -503,6 +503,14 @@ export default function Home() {
             <img
               src={`${BASE}/images/industry/door-gold-day.jpeg`}
               alt="Gold external door in daylight — Image Foundry CGI"
+            />
+            <video
+              src={`${BASE}/videos/Comp%201_15.mp4`}
+              autoPlay
+              muted
+              loop
+              playsInline
+              style={{ width: "100%", display: "block" }}
             />
           </div>
           <div className="expertise-content">
