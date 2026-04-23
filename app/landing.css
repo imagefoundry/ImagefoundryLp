@@ -1808,7 +1808,7 @@ footer {
     padding-right: 0;
   }
   .expertise-images img { height: auto; object-fit: contain; clip-path: inset(0 0 6% 0); }
-  .expertise-images video { margin-top: 16px; width: 100%; display: block; }
+  .expertise-images video { margin-top: 10px; width: 100%; display: block; }
   .expertise-text {
     padding: 56px 40px 40px;
     border-bottom: 1px solid var(--light-grey);
@@ -1900,7 +1900,7 @@ footer {
     margin-bottom: 0;
   }
   .expertise-images img { height: auto; object-fit: contain; clip-path: inset(0 0 6% 0); border-radius: 0; }
-  .expertise-images video { margin-top: 16px; width: 100%; display: block; }
+  .expertise-images video { margin-top: 10px; width: 100%; display: block; }
   .expertise-text { padding: 40px 24px 32px; border-right: none; }
   .expertise-points { padding: 0 24px 40px; }
   .expertise-point { padding: 20px 0; }
