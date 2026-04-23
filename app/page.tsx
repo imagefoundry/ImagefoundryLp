@@ -91,7 +91,7 @@ function _onKeyUp(e: KeyboardEvent) {
 }
 
 const COLOURWAY_SLIDES = [
-  { img: `${BASE}/images/colourways/colourway-red.jpg`,          label: "Colourway: Signal Red",    alt: "Red external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-red.webp`,          label: "Colourway: Signal Red",    alt: "Red external door — CGI colourway variant" },
   { img: `${BASE}/images/colourways/colourway-blue.jpeg`,        label: "Colourway: Steel Blue",    alt: "Blue external door — CGI colourway variant" },
   { img: `${BASE}/images/colourways/colourway-dark-green.png`, label: "Colourway: Racing Green",  alt: "Racing green external door — CGI colourway variant" },
   { img: `${BASE}/images/colourways/colourway-yellow.png`,       label: "Colourway: Yellow",        alt: "Yellow external door — CGI colourway variant" },
@@ -261,7 +261,7 @@ export default function Home() {
               </div>
               <div className="nav-industries-grid">
                 {[
-                  { label: "Interiors",  img: `${BASE}/images/industry/interiors-living-room.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/interiors/" },
+                  { label: "Interiors",  img: `${BASE}/images/industry/interiors-living-room.webp`,             href: "https://www.imagefoundry.co.uk/industry/interiors/" },
                   { label: "Bathrooms",  img: `${BASE}/images/industry/bathroom-basin.jpg`, href: "https://www.imagefoundry.co.uk/industry/bathrooms/" },
                   { label: "Products",   img: `${BASE}/images/industry/product-shot.png`,        href: "https://www.imagefoundry.co.uk/industry/product/" },
                   { label: "Kitchens",   img: `${BASE}/images/industry/kitchen-interior.jpg`,              href: "https://www.imagefoundry.co.uk/industry/kitchen/" },
@@ -313,8 +313,9 @@ export default function Home() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="hero-img"
-          src={`${BASE}/images/colourways/colourway-red.jpg`}
+          src={`${BASE}/images/colourways/colourway-red.webp`}
           alt="Black external door on ivy-covered red brick house — CGI product in AI-generated environment"
+          fetchPriority="high"
         />
         <div className="hero-overlay"></div>
         <div className="hero-content">
@@ -385,8 +386,9 @@ export default function Home() {
         <div className="split-image">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={`${BASE}/images/industry/interiors-living-room.jpeg`}
+            src={`${BASE}/images/industry/interiors-living-room.webp`}
             alt="Contemporary hallway with open black internal door — Image Foundry CGI"
+            loading="lazy"
           />
         </div>
       </section>
@@ -432,7 +434,7 @@ export default function Home() {
             {COLOURWAY_SLIDES.map((s) => (
               <div className="colourway-slide" key={s.label}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={s.img} alt={s.alt} />
+                <img src={s.img} alt={s.alt} loading="lazy" />
                 <span className="colourway-slide-label">{s.label}</span>
               </div>
             ))}
@@ -480,9 +482,9 @@ export default function Home() {
         {/* Bottom row — 3 benefit items */}
         <div className="benefits-grid-bottom">
           {[
-            { img: `${BASE}/images/benefits/benefit-full-range.jpeg`, num: "01", title: "Your full range. Done.", body: "Every product, every finish, every colourway — all imaged. Not just the hero pieces. The products left out of catalogues because the cost per shot was too high can now all be shown." },
-            { img: `${BASE}/images/benefits/benefit-fraction-cost.jpeg`, num: "02", title: "A fraction of the cost.", body: "More images for your budget. What once meant choosing five shots can now mean covering your entire catalogue. The cost per image drops significantly — without the quality dropping with it." },
-            { img: `${BASE}/images/benefits/benefit-faster-market.jpeg`, num: "03", title: "Faster to market.", body: "No set-builds, no shoot days, no location headaches. Compressed timelines mean new ranges get imaged quickly, seasonal updates are straightforward, and launches don't wait on photography." },
+            { img: `${BASE}/images/benefits/benefit-full-range.webp`, num: "01", title: "Your full range. Done.", body: "Every product, every finish, every colourway — all imaged. Not just the hero pieces. The products left out of catalogues because the cost per shot was too high can now all be shown." },
+            { img: `${BASE}/images/benefits/benefit-fraction-cost.webp`, num: "02", title: "A fraction of the cost.", body: "More images for your budget. What once meant choosing five shots can now mean covering your entire catalogue. The cost per image drops significantly — without the quality dropping with it." },
+            { img: `${BASE}/images/benefits/benefit-faster-market.webp`, num: "03", title: "Faster to market.", body: "No set-builds, no shoot days, no location headaches. Compressed timelines mean new ranges get imaged quickly, seasonal updates are straightforward, and launches don't wait on photography." },
           ].map(({ img, num, title, body }) => (
             <div className="benefit-item wow" key={num}>
               <div className="benefit-bg" style={{backgroundImage: `url(${img})`}} />
@@ -501,8 +503,9 @@ export default function Home() {
           <div className="expertise-images">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`${BASE}/images/industry/door-gold-day.jpeg`}
+              src={`${BASE}/images/industry/door-gold-day.webp`}
               alt="Gold external door in daylight — Image Foundry CGI"
+              loading="lazy"
             />
             <video
               src={`${BASE}/videos/Comp%201_15.mp4`}
@@ -602,7 +605,7 @@ export default function Home() {
             <div className="gi" key={alt}>
               <div className="gi-inner">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img} alt={alt} />
+                <img src={img} alt={alt} loading="lazy" />
               </div>
             </div>
           ))}
@@ -652,7 +655,7 @@ export default function Home() {
             { src: `${BASE}/images/logos/wienerberger.png`,  alt: "Wienerberger" },
           ].map(({ src, alt }) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={`e-${alt}`} src={src} alt={alt} className="client-logo" />
+            <img key={`e-${alt}`} src={src} alt={alt} className="client-logo" loading="lazy" />
           ))}
         </div>
       </div>
