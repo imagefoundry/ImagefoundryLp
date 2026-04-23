@@ -215,13 +215,19 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const images = [
+    // Preload colourway slides immediately — user can swipe to them any time
+    const urgent = [
       `${BASE}/images/colourways/colourway-blue.webp`,
       `${BASE}/images/colourways/colourway-dark-green.webp`,
       `${BASE}/images/colourways/colourway-yellow.webp`,
       `${BASE}/images/colourways/colourway-anthracite.webp`,
       `${BASE}/images/colourways/colourway-teal.webp`,
       `${BASE}/images/colourways/colourway-oak.webp`,
+    ];
+    urgent.forEach((src) => { const img = new Image(); img.src = src; });
+
+    // Preload remaining images after page load
+    const deferred = [
       `${BASE}/images/industry/interiors-living-room.webp`,
       `${BASE}/images/industry/bathroom-basin.webp`,
       `${BASE}/images/industry/product-shot.webp`,
@@ -248,7 +254,7 @@ export default function Home() {
       `${BASE}/images/gallery/gallery-cgi-ai-4c.webp`,
     ];
     window.addEventListener("load", () => {
-      images.forEach((src) => { const img = new Image(); img.src = src; });
+      deferred.forEach((src) => { const img = new Image(); img.src = src; });
     }, { once: true });
   }, []);
 
@@ -643,7 +649,7 @@ export default function Home() {
             <div className="gi" key={alt}>
               <div className="gi-inner">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img} alt={alt} loading="lazy" />
+                <img src={img} alt={alt} />
               </div>
             </div>
           ))}
