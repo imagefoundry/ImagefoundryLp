@@ -92,12 +92,12 @@ function _onKeyUp(e: KeyboardEvent) {
 
 const COLOURWAY_SLIDES = [
   { img: `${BASE}/images/colourways/colourway-red.webp`,          label: "Colourway: Signal Red",    alt: "Red external door — CGI colourway variant" },
-  { img: `${BASE}/images/colourways/colourway-blue.jpeg`,        label: "Colourway: Steel Blue",    alt: "Blue external door — CGI colourway variant" },
-  { img: `${BASE}/images/colourways/colourway-dark-green.png`, label: "Colourway: Racing Green",  alt: "Racing green external door — CGI colourway variant" },
-  { img: `${BASE}/images/colourways/colourway-yellow.png`,       label: "Colourway: Yellow",        alt: "Yellow external door — CGI colourway variant" },
-  { img: `${BASE}/images/colourways/colourway-anthracite.png`,   label: "Colourway: Anthracite",    alt: "Anthracite external door — CGI colourway variant" },
-  { img: `${BASE}/images/colourways/colourway-teal.png`,         label: "Colourway: Teal",          alt: "Teal external door — CGI colourway variant" },
-  { img: `${BASE}/images/colourways/colourway-oak.png`,          label: "Colourway: Oak",           alt: "Oak external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-blue.webp`,        label: "Colourway: Steel Blue",    alt: "Blue external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-dark-green.webp`, label: "Colourway: Racing Green",  alt: "Racing green external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-yellow.webp`,       label: "Colourway: Yellow",        alt: "Yellow external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-anthracite.webp`,   label: "Colourway: Anthracite",    alt: "Anthracite external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-teal.webp`,         label: "Colourway: Teal",          alt: "Teal external door — CGI colourway variant" },
+  { img: `${BASE}/images/colourways/colourway-oak.webp`,          label: "Colourway: Oak",           alt: "Oak external door — CGI colourway variant" },
 ];
 
 export default function Home() {
@@ -262,11 +262,11 @@ export default function Home() {
               <div className="nav-industries-grid">
                 {[
                   { label: "Interiors",  img: `${BASE}/images/industry/interiors-living-room.webp`,             href: "https://www.imagefoundry.co.uk/industry/interiors/" },
-                  { label: "Bathrooms",  img: `${BASE}/images/industry/bathroom-basin.jpg`, href: "https://www.imagefoundry.co.uk/industry/bathrooms/" },
-                  { label: "Products",   img: `${BASE}/images/industry/product-shot.png`,        href: "https://www.imagefoundry.co.uk/industry/product/" },
-                  { label: "Kitchens",   img: `${BASE}/images/industry/kitchen-interior.jpg`,              href: "https://www.imagefoundry.co.uk/industry/kitchen/" },
-                  { label: "Bedrooms",   img: `${BASE}/images/industry/bedroom-interior.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/bedrooms/" },
-                  { label: "Property",   img: `${BASE}/images/industry/property-exterior.jpeg`,             href: "https://www.imagefoundry.co.uk/industry/property/" },
+                  { label: "Bathrooms",  img: `${BASE}/images/industry/bathroom-basin.webp`, href: "https://www.imagefoundry.co.uk/industry/bathrooms/" },
+                  { label: "Products",   img: `${BASE}/images/industry/product-shot.webp`,        href: "https://www.imagefoundry.co.uk/industry/product/" },
+                  { label: "Kitchens",   img: `${BASE}/images/industry/kitchen-interior.webp`,              href: "https://www.imagefoundry.co.uk/industry/kitchen/" },
+                  { label: "Bedrooms",   img: `${BASE}/images/industry/bedroom-interior.webp`,             href: "https://www.imagefoundry.co.uk/industry/bedrooms/" },
+                  { label: "Property",   img: `${BASE}/images/industry/property-exterior.webp`,             href: "https://www.imagefoundry.co.uk/industry/property/" },
                 ].map(({ label, img, href }) => (
                   <figure key={label}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -586,21 +586,21 @@ export default function Home() {
         </div>
         <div className="gallery-grid">
           {[
-            { img: `${BASE}/images/gallery/door-black-georgian-dusk.jpeg`,                          alt: "Black Georgian front door at dusk — exterior lighting CGI",        tag: "External Doors — Georgian" },
-            { img: `${BASE}/images/gallery/gallery-home-office.jpeg`,  alt: "Designer desk setup with monitor — Image Foundry CGI",            tag: "Home Office" },
-            { img: `${BASE}/images/industry/bathroom-basin.jpg`,                                alt: "White basin on marble counter in dark tiled bathroom — CGI",        tag: "Bathroom" },
-            { img: `${BASE}/images/gallery/lighting-pendant.jpg`,                                        alt: "Brass pendant light in styled kitchen utility room — CGI",          tag: "Lighting" },
-            { img: `${BASE}/images/gallery/outdoor-decking.png`,                                          alt: "Garden decking with outdoor furniture — CGI",                      tag: "Outdoor Living" },
-            { img: `${BASE}/images/gallery/external-paving-path.png`,                                         alt: "Garden path with lavender planting — CGI",                         tag: "External Paving" },
-            { img: `${BASE}/images/gallery/gallery-bathroom-marble.jpeg`,  alt: "Luxury bathroom with marble tiles — Image Foundry CGI",           tag: "Bathroom" },
-            { img: `${BASE}/images/gallery/gallery-kitchen-appliances.jpeg`,  alt: "Breville toaster and kettle in kitchen — Image Foundry CGI",      tag: "Kitchen Appliances" },
-            { img: `${BASE}/images/gallery/radiator-living-room.png`,                          alt: "White column radiator in styled grey living room — CGI",            tag: "Radiators" },
-            { img: `${BASE}/images/gallery/gallery-cgi-ai-3a.png`,    alt: "Product lifestyle image 3a — Image Foundry CGI",                   tag: "CGI + AI" },
-            { img: `${BASE}/images/gallery/gallery-cgi-ai-3b.png`,    alt: "Product lifestyle image 3b — Image Foundry CGI",                   tag: "CGI + AI" },
-            { img: `${BASE}/images/gallery/gallery-cgi-ai-4c.jpeg`,   alt: "Product lifestyle image 4c — Image Foundry CGI",                   tag: "CGI + AI" },
-            { img: `${BASE}/images/gallery/gallery-cgi-ai-4a.png`,    alt: "Product lifestyle image 4a — Image Foundry CGI",                   tag: "CGI + AI" },
-            { img: `${BASE}/images/gallery/gallery-cgi-ai-4b.png`,    alt: "Product lifestyle image 4b — Image Foundry CGI",                   tag: "CGI + AI" },
-            { img: `${BASE}/images/gallery/gallery-cgi-ai-3c.png`,    alt: "Product lifestyle image 3c — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/door-black-georgian-dusk.webp`,                          alt: "Black Georgian front door at dusk — exterior lighting CGI",        tag: "External Doors — Georgian" },
+            { img: `${BASE}/images/gallery/gallery-home-office.webp`,  alt: "Designer desk setup with monitor — Image Foundry CGI",            tag: "Home Office" },
+            { img: `${BASE}/images/industry/bathroom-basin.webp`,                                alt: "White basin on marble counter in dark tiled bathroom — CGI",        tag: "Bathroom" },
+            { img: `${BASE}/images/gallery/lighting-pendant.webp`,                                        alt: "Brass pendant light in styled kitchen utility room — CGI",          tag: "Lighting" },
+            { img: `${BASE}/images/gallery/outdoor-decking.webp`,                                          alt: "Garden decking with outdoor furniture — CGI",                      tag: "Outdoor Living" },
+            { img: `${BASE}/images/gallery/external-paving-path.webp`,                                         alt: "Garden path with lavender planting — CGI",                         tag: "External Paving" },
+            { img: `${BASE}/images/gallery/gallery-bathroom-marble.webp`,  alt: "Luxury bathroom with marble tiles — Image Foundry CGI",           tag: "Bathroom" },
+            { img: `${BASE}/images/gallery/gallery-kitchen-appliances.webp`,  alt: "Breville toaster and kettle in kitchen — Image Foundry CGI",      tag: "Kitchen Appliances" },
+            { img: `${BASE}/images/gallery/radiator-living-room.webp`,                          alt: "White column radiator in styled grey living room — CGI",            tag: "Radiators" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-3a.webp`,    alt: "Product lifestyle image 3a — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-3b.webp`,    alt: "Product lifestyle image 3b — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-4c.webp`,   alt: "Product lifestyle image 4c — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-4a.webp`,    alt: "Product lifestyle image 4a — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-4b.webp`,    alt: "Product lifestyle image 4b — Image Foundry CGI",                   tag: "CGI + AI" },
+            { img: `${BASE}/images/gallery/gallery-cgi-ai-3c.webp`,    alt: "Product lifestyle image 3c — Image Foundry CGI",                   tag: "CGI + AI" },
           ].map(({ img, alt }) => (
             <div className="gi" key={alt}>
               <div className="gi-inner">
