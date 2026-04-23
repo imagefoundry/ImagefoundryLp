@@ -214,6 +214,44 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const images = [
+      `${BASE}/images/colourways/colourway-blue.webp`,
+      `${BASE}/images/colourways/colourway-dark-green.webp`,
+      `${BASE}/images/colourways/colourway-yellow.webp`,
+      `${BASE}/images/colourways/colourway-anthracite.webp`,
+      `${BASE}/images/colourways/colourway-teal.webp`,
+      `${BASE}/images/colourways/colourway-oak.webp`,
+      `${BASE}/images/industry/interiors-living-room.webp`,
+      `${BASE}/images/industry/bathroom-basin.webp`,
+      `${BASE}/images/industry/product-shot.webp`,
+      `${BASE}/images/industry/kitchen-interior.webp`,
+      `${BASE}/images/industry/bedroom-interior.webp`,
+      `${BASE}/images/industry/property-exterior.webp`,
+      `${BASE}/images/industry/door-gold-day.webp`,
+      `${BASE}/images/benefits/benefit-full-range.webp`,
+      `${BASE}/images/benefits/benefit-fraction-cost.webp`,
+      `${BASE}/images/benefits/benefit-faster-market.webp`,
+      `${BASE}/images/gallery/door-black-georgian-dusk.webp`,
+      `${BASE}/images/gallery/gallery-home-office.webp`,
+      `${BASE}/images/gallery/lighting-pendant.webp`,
+      `${BASE}/images/gallery/outdoor-decking.webp`,
+      `${BASE}/images/gallery/external-paving-path.webp`,
+      `${BASE}/images/gallery/gallery-bathroom-marble.webp`,
+      `${BASE}/images/gallery/gallery-kitchen-appliances.webp`,
+      `${BASE}/images/gallery/radiator-living-room.webp`,
+      `${BASE}/images/gallery/gallery-cgi-ai-3a.webp`,
+      `${BASE}/images/gallery/gallery-cgi-ai-3b.webp`,
+      `${BASE}/images/gallery/gallery-cgi-ai-3c.webp`,
+      `${BASE}/images/gallery/gallery-cgi-ai-4a.webp`,
+      `${BASE}/images/gallery/gallery-cgi-ai-4b.webp`,
+      `${BASE}/images/gallery/gallery-cgi-ai-4c.webp`,
+    ];
+    window.addEventListener("load", () => {
+      images.forEach((src) => { const img = new Image(); img.src = src; });
+    }, { once: true });
+  }, []);
+
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-sync-scripts */}
