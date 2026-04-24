@@ -17,6 +17,15 @@
 /.next/
 /out/
 
+# public assets (uploaded directly to server, not tracked in git)
+/public/images/
+/public/videos/
+/public/*.svg
+/public/*.ico
+/public/*.png
+/public/*.jpg
+/public/*.webp
+
 # static export output (root-level)
 /_next/
 /images/
