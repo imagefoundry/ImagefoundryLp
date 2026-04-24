@@ -17,6 +17,10 @@
 /.next/
 /out/
 
+# source/working image directories
+/to-compress/
+convert_to_webp.py
+
 # public assets (uploaded directly to server, not tracked in git)
 /public/images/
 /public/videos/
