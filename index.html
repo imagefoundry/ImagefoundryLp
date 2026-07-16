@@ -1,0 +1,2388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Roomset — Image Foundry · CGI + AI Product Imagery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #000000;
+      --white: #FFFFFF;
+      --teal: #2A657D;
+      --off-white: #F6F6F6;
+      --light-grey: #DBDBDB;
+      --mid-grey: #B7B7B7;
+      --near-black: #212529;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Barlow Condensed', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .outline {
+      -webkit-text-stroke: 2px var(--black);
+      -webkit-text-fill-color: transparent;
+    }
+
+    .outline-white {
+      -webkit-text-stroke: 2px var(--white);
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 200;
+      padding: 49px 0 2rem;
+      background: transparent;
+    }
+
+    .sticky-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1.5% 0 calc(4% + 1rem);
+    }
+
+    .sticky-bar .bi img {
+      width: 150px;
+      display: block;
+    }
+
+    /* ── STICKY FLOAT ── */
+    .sf {
+      position: fixed;
+      top: 63px;
+      right: 4%;
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+
+    .sf .sf-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+      background: transparent;
+      padding: 1rem 1rem 1rem 2.2rem;
+      transition: background 350ms ease, box-shadow 350ms ease;
+    }
+
+    .sf .sf-contact {
+      font-weight: 700;
+      font-size: 18px;
+      white-space: nowrap;
+      color: var(--white);
+      max-width: 0;
+      overflow: hidden;
+      transition: max-width 350ms ease;
+    }
+
+    .sf .sf-contact a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .sf .sf-contact-btn {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transition: opacity 300ms ease, max-height 350ms ease;
+      width: 100%;
+    }
+
+    .sf .sf-contact-btn a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      background: var(--white);
+      color: var(--black);
+      border: 1.5px solid var(--black);
+      font-size: 18px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 1rem 1.4rem;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .sf .sf-contact-btn a::after {
+      content: "";
+      width: 70px;
+      flex-shrink: 0;
+      height: 1.5px;
+      background: var(--black);
+      margin-right: 20px;
+    }
+
+    .sf.nav-is-down .sf-top-row {
+      background: var(--black);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .sf.nav-is-down .sf-contact {
+      max-width: 220px;
+    }
+
+    .sf.nav-is-down .sf-contact-btn {
+      opacity: 1;
+      max-height: 80px;
+      pointer-events: auto;
+    }
+
+    .sf.nav-open-active .sf-contact,
+    .sf.nav-open-active .sf-contact-btn {
+      opacity: 0 !important;
+      pointer-events: none;
+    }
+
+    /* ── BURGER ── */
+    .sf-burger {
+      width: 30px;
+      height: 25px;
+      position: relative;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .sf-burger span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -15px;
+      display: block;
+      width: 30px;
+      height: 2px;
+      background-color: var(--white);
+      transition: background-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .sf-burger span::before,
+    .sf-burger span::after {
+      display: block;
+      width: 30px;
+      height: 2px;
+      position: absolute;
+      content: "";
+      background-color: var(--white);
+      transition: background-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .sf-burger span::before {
+      top: -9px;
+    }
+
+    .sf-burger span::after {
+      top: 9px;
+    }
+
+    /* ── FULL-SCREEN NAV ── */
+    header nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 490;
+      overflow: hidden;
+    }
+
+    .nav-row {
+      display: flex;
+      height: 100%;
+      width: 100%;
+    }
+
+    .nav-industries {
+      flex: 1;
+      background: var(--white);
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+
+    .nav-industries-header {
+      padding: 3rem;
+    }
+
+    .nav-industries-header h2 {
+      font-weight: 700;
+      font-size: 50px;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+    }
+
+    .nav-industries-header p {
+      max-width: 400px;
+      margin-bottom: 1.5rem;
+      font-size: 18px;
+      color: #555;
+    }
+
+    .nav-industries-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 0 3rem 3rem;
+    }
+
+    .nav-industries-grid figure {
+      position: relative;
+      margin: 0;
+      height: 220px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .nav-industries-grid figure img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .nav-industries-grid figure::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-industries-grid figure figcaption {
+      position: absolute;
+      left: 30px;
+      bottom: 12px;
+      color: var(--white);
+      z-index: 2;
+    }
+
+    .nav-industries-grid figure figcaption h3 {
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-industries-grid figure figcaption h3 a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    .nav-list {
+      width: 25%;
+      min-width: 280px;
+      flex-shrink: 0;
+      background: var(--black);
+      padding: 10rem 2rem 4rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .nav-close {
+      position: absolute;
+      top: 1.8rem;
+      right: 1.8rem;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 24px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .nav-primary {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-primary li a {
+      color: var(--white);
+      font-size: 30px;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 300ms;
+    }
+
+    .nav-primary li a:hover,
+    .nav-primary li.active a {
+      color: var(--teal);
+    }
+
+    .nav-secondary {
+      padding-bottom: 4rem;
+    }
+
+    .nav-secondary ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .nav-secondary ul li {
+      color: var(--white);
+      font-size: 18px;
+    }
+
+    .nav-secondary ul li a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav-footer {
+      padding-top: 4rem;
+    }
+
+    .nav-footer ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      gap: 2rem;
+    }
+
+    .nav-footer ul li {
+      color: var(--white);
+      font-size: 18px;
+    }
+
+    .nav-footer ul li a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.10) 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      padding: 0 64px 100px;
+      max-width: 960px;
+    }
+
+    .hero-eyebrow {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.27px;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .hero-h1 {
+      font-size: clamp(58px, 8vw, 100px);
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .hero-h1-line1 {
+      font-size: 0.68em;
+      display: block;
+      line-height: 0.95;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 600px;
+      line-height: 1.55;
+      margin-bottom: 36px;
+      letter-spacing: -0.27px;
+    }
+
+    .hero-cta-btn {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--teal);
+      text-decoration: none;
+      padding: 16px 36px;
+      transition: background 0.2s;
+    }
+
+    .hero-cta-btn:hover {
+      background: #1e4d5e;
+    }
+
+    .hero-chevron {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      font-size: 32px;
+      color: var(--white);
+      animation: bounce 2s ease-in-out infinite;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(10px);
+      }
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--teal);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 28px 64px;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-num {
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      line-height: 1.3;
+      white-space: nowrap;
+      max-width: 120px;
+    }
+
+    /* ── GALLERY MOSAIC ── */
+    .section-gallery-mosaic {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--light-grey);
+      border-bottom: 1px solid var(--light-grey);
+      margin-bottom: 80px;
+    }
+
+    .gallery-mosaic-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 48px 64px 40px 94px;
+      border-bottom: 1px solid var(--light-grey);
+      gap: 12px;
+    }
+
+    .gml-top-row {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 24px;
+    }
+
+    .gml-line {
+      font-size: clamp(28px, 3.36vw, 50px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      line-height: 1;
+      color: var(--black);
+    }
+
+    .gml-line--ai {
+      color: var(--black);
+    }
+
+    .gml-heading {
+      font-size: clamp(28px, 3.36vw, 50px);
+      font-weight: 700;
+      letter-spacing: -1.28px;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--black);
+    }
+
+
+    .gallery-mosaic-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+
+    .gm-item {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gm-item-inner {
+      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gm-item-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .gm-item:hover .gm-item-inner img {
+      transform: scale(1.04);
+    }
+
+    /* ── MORE PRODUCTS / LESS COST ── */
+    .section-shift {
+      background: var(--white);
+      padding: 100px 94px;
+      border-top: 1px solid var(--light-grey);
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .shift-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .shift-body {
+      display: flex;
+      flex-direction: column;
+      padding-top: 8px;
+    }
+
+    .shift-body .section-body+.section-body {
+      margin-top: 16px;
+    }
+
+    /* ── SHARED TYPOGRAPHY ── */
+    .section-eyebrow {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.27px;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .section-h2 {
+      font-size: clamp(46px, 5.5vw, 80px);
+      font-weight: 700;
+      letter-spacing: -1.28px;
+      text-transform: uppercase;
+      line-height: 0.95;
+      margin-bottom: 32px;
+    }
+
+    .section-body {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: -0.27px;
+      line-height: 1.7;
+      color: var(--near-black);
+    }
+
+    .section-body+.section-body {
+      margin-top: 16px;
+    }
+
+    /* ── BENEFITS ── */
+    .section-benefits {
+      background: var(--off-white);
+      padding: 0;
+      overflow: hidden;
+      border-top: 1px solid var(--light-grey);
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .benefits-top {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      min-height: 420px;
+    }
+
+    .benefits-heading {
+      padding: 80px 32px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-bottom: 1px solid var(--mid-grey);
+    }
+
+    .benefits-heading .section-h2 {
+      font-size: clamp(44px, 4vw, 62px);
+    }
+
+    .benefits-video-wrap {
+      display: flex;
+      border-bottom: 1px solid var(--mid-grey);
+    }
+
+    .benefits-video {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .benefits-grid-bottom {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .benefit-item {
+      display: flex;
+      flex-direction: column;
+      padding: 54px 48px;
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      border-top: 3px solid var(--black);
+      background-color: var(--near-black);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .benefit-bg {
+      position: absolute;
+      top: -40%;
+      left: 0;
+      right: 0;
+      bottom: -40%;
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+      transition: transform 0.1s linear;
+      will-change: transform;
+    }
+
+    .benefit-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.45);
+      z-index: 1;
+    }
+
+    .benefit-item>*:not(.benefit-bg) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .benefit-item:last-child {
+      border-right: none;
+    }
+
+    .benefit-item:nth-child(2) {
+      border-top-color: var(--teal);
+    }
+
+    .benefit-num {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 20px;
+    }
+
+    .benefit-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .benefit-body {
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: -0.2px;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    /* ── EXPERTISE ── */
+    .section-expertise {
+      background: var(--off-white);
+      padding: 100px 0 0;
+    }
+
+    .expertise-inner {
+      display: flex;
+      flex-direction: column;
+      padding: 0 94px;
+    }
+
+    .expertise-images { display: none; }
+
+    .expertise-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .expertise-text {
+      padding: 0 0 56px;
+      border-bottom: 1px solid var(--light-grey);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .expertise-points {
+      padding: 0;
+    }
+
+    .expertise-point {
+      padding: 38px 0;
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .expertise-point:first-child {
+      border-top: 1px solid var(--light-grey);
+    }
+
+    .ep-num {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--teal);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .ep-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.42px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      color: var(--black);
+    }
+
+    .ep-body {
+      font-size: 17px;
+      font-weight: 400;
+      letter-spacing: -0.27px;
+      line-height: 1.7;
+      color: var(--near-black);
+    }
+
+    /* ── TESTIMONIAL ── */
+    .section-testimonial {
+      background: var(--off-white);
+      padding: 80px 64px 80px 0;
+      border-top: 1px solid var(--light-grey);
+      border-bottom: 1px solid var(--light-grey);
+    }
+
+    .testimonial-inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .testimonial-video {
+      width: 420px;
+      align-self: stretch;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+      margin-left: 94px;
+    }
+
+    .testimonial-quote-block {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .testimonial-qq {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .testimonial-qq span {
+      font-size: 72px;
+      font-weight: 900;
+      color: var(--light-grey);
+      font-family: Georgia, serif;
+      line-height: 0.8;
+    }
+
+    .testimonial-quote {
+      font-size: clamp(20px, 2.2vw, 29px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      line-height: 1.15;
+      color: var(--black);
+      font-style: normal;
+    }
+
+    .testimonial-cite {
+      font-style: normal;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .testimonial-cite-name {
+      font-size: 15.7px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+
+    .testimonial-cite-company {
+      font-size: 14.3px;
+      font-weight: 400;
+      color: var(--mid-grey);
+    }
+
+    .testimonial-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 338px;
+    }
+
+    .ts-stat {
+      background: var(--black);
+      padding: 16px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .ts-stat-blue {
+      background: var(--teal);
+    }
+
+    .ts-num {
+      font-size: 48px;
+      font-weight: 600;
+      letter-spacing: -2px;
+      color: var(--white);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .ts-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: -8px;
+    }
+
+    /* ── COLOURWAY ── */
+    .section-colourway {
+      background: var(--off-white);
+      padding: 60px 0 80px;
+    }
+
+    .colourway-header {
+      margin-bottom: 40px;
+      padding: 0 64px 0 94px;
+    }
+
+    .colourway-carousel-wrap {
+      position: relative;
+    }
+
+    .colourway-carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 3px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .colourway-carousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .colourway-slide {
+      flex: 0 0 38%;
+      scroll-snap-align: start;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .colourway-slide img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .colourway-slide-label {
+      display: block;
+      margin-top: 12px;
+      padding: 0 4px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+    }
+
+    .cw-btn {
+      position: absolute;
+      top: 40%;
+      transform: translateY(-50%);
+      background: var(--white);
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .cw-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .cw-btn-prev {
+      left: 16px;
+    }
+
+    .cw-btn-next {
+      right: 16px;
+    }
+
+    .cw-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .cw-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: none;
+      background: var(--light-grey);
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s;
+    }
+
+    .cw-dot-active {
+      background: var(--teal);
+    }
+
+    .colourway-caption {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 18px;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--mid-grey);
+      letter-spacing: -0.27px;
+      padding: 0 64px;
+    }
+
+    /* ── PROCESS ── */
+    .section-process {
+      background: var(--white);
+      padding: 100px 64px;
+      border-top: 1px solid var(--light-grey);
+    }
+
+    .process-header {
+      max-width: 800px;
+      margin-bottom: 64px;
+    }
+
+    .process-header .section-body {
+      margin-top: 16px;
+      color: var(--near-black);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--light-grey);
+    }
+
+    .process-step {
+      padding: 40px 32px 40px 24px;
+      border-right: 1px solid var(--light-grey);
+    }
+
+    .process-step:last-child {
+      border-right: none;
+    }
+
+    .process-num {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+
+    .process-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .process-body {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--mid-grey);
+      line-height: 1.6;
+    }
+
+    /* ── LOGOS ── */
+    .section-logos {
+      background: var(--black);
+      padding: 56px 64px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+    }
+
+    .logos-label {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 42px;
+    }
+
+    .logos-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 32px 38px;
+    }
+
+    .client-logo {
+      height: auto;
+      max-height: 29px;
+      max-width: 96px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* ── CONTACT ── */
+    .section-contact {
+      background: var(--off-white);
+      padding: 100px 64px;
+    }
+
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-text .section-body {
+      margin-top: 24px;
+      color: var(--near-black);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .cf-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .cf-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cf-field label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--near-black);
+    }
+
+    .cf-field input,
+    .cf-field textarea {
+      border: 1px solid var(--light-grey);
+      background: var(--white);
+      padding: 14px 16px;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: vertical;
+    }
+
+    .cf-field input:focus,
+    .cf-field textarea:focus {
+      border-color: var(--teal);
+    }
+
+    .cf-submit {
+      align-self: flex-start;
+      background: var(--teal);
+      color: var(--white);
+      border: none;
+      padding: 16px 40px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+
+    .cf-submit:hover {
+      background: #1e4d5e;
+    }
+
+    .cf-submit:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
+    /* ── CTA ── */
+    .section-cta {
+      background: var(--black);
+      padding: 120px 64px;
+      text-align: center;
+    }
+
+    .cta-eyebrow {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.27px;
+      text-transform: uppercase;
+      color: var(--mid-grey);
+      display: block;
+      margin-bottom: 24px;
+    }
+
+    .cta-h2 {
+      font-size: clamp(48px, 7vw, 90px);
+      font-weight: 700;
+      letter-spacing: -1.35px;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .cta-sub {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: -0.27px;
+      color: rgba(255, 255, 255, 0.55);
+      margin-bottom: 52px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--black);
+      text-decoration: none;
+      background: var(--white);
+      padding: 20px 28px;
+      transition: background 0.2s, color 0.2s;
+      font-family: inherit;
+    }
+
+    .cta-btn::after {
+      content: "";
+      width: 60px;
+      flex-shrink: 0;
+      height: 1.5px;
+      background: currentColor;
+    }
+
+    .cta-btn:hover {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #000;
+      padding: 3rem 4% 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 22% 36% auto auto;
+      grid-template-rows: auto auto;
+      align-items: start;
+      column-gap: 2rem;
+    }
+
+    .footer-col--logo {
+      grid-column: 1;
+      grid-row: 1/3;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-col--gap {
+      grid-column: 2;
+      grid-row: 1/3;
+    }
+
+    .footer-logo-img {
+      width: 120px;
+      height: auto;
+      display: block;
+    }
+
+    .footer-contact {
+      margin: 3rem 0 0;
+    }
+
+    .footer-lets-talk {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--black);
+      text-decoration: none;
+      background: var(--white);
+      padding: 20px 28px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .footer-lets-talk::after {
+      content: "";
+      width: 60px;
+      flex-shrink: 0;
+      height: 1.5px;
+      background: currentColor;
+    }
+
+    .footer-lets-talk:hover {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .footer-links-large {
+      grid-column: 3;
+      grid-row: 1;
+      list-style: none;
+    }
+
+    .footer-links-large li {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 36px;
+      text-transform: uppercase;
+    }
+
+    .footer-links-large li a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links-large li a:hover {
+      color: var(--teal);
+    }
+
+    .footer-links-small {
+      grid-column: 4;
+      grid-row: 1;
+      list-style: none;
+    }
+
+    .footer-links-small li {
+      font-size: 17px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 2;
+    }
+
+    .footer-links-small li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .footer-links-small li a:hover {
+      color: var(--teal);
+    }
+
+    .footer-social-links {
+      grid-column: 3/5;
+      grid-row: 2;
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      padding-top: 5rem;
+    }
+
+    .footer-social-links li {
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .footer-social-links li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .footer-social-links li a:hover {
+      color: var(--teal);
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .wow {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .wow.animate-ready {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .wow.animate-ready.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE 1024px ── */
+    @media (max-width: 1024px) {
+      .gallery-mosaic-label {
+        padding: 32px 40px 24px;
+      }
+
+      .shift-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .section-shift {
+        padding: 80px 40px;
+      }
+
+      .expertise-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .expertise-images {
+        padding-right: 0;
+        gap: 0;
+      }
+
+      .expertise-images video {
+        margin-top: -35px;
+      }
+
+      .expertise-text {
+        padding: 56px 40px 40px;
+      }
+
+      .expertise-points {
+        padding: 0 40px 56px;
+      }
+
+      .colourway-slide {
+        flex: 0 0 55%;
+      }
+
+      .process-steps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .testimonial-video {
+        width: 260px;
+        margin-left: 40px;
+      }
+
+      .testimonial-inner {
+        gap: 32px;
+      }
+
+      .testimonial-stats {
+        min-width: 220px;
+      }
+    }
+
+    /* ── RESPONSIVE 768px ── */
+    @media (max-width: 768px) {
+      .sf {
+        top: 49px;
+        right: calc(1.5% + 1rem);
+      }
+
+      .sf .sf-contact,
+      .sf .sf-contact-btn {
+        display: none !important;
+      }
+
+      .sf .sf-top-row {
+        justify-content: flex-end;
+        padding: 10px;
+      }
+
+      .sf.nav-is-down .sf-top-row {
+        background: var(--black) !important;
+        box-shadow: none !important;
+      }
+
+      .nav-industries {
+        display: none;
+      }
+
+      .nav-list {
+        width: 100%;
+        min-width: unset;
+        padding: 6rem 2rem 3rem;
+      }
+
+      .hero-content {
+        padding: 0 24px 80px;
+      }
+
+      .stats-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 0;
+      }
+
+      .stat-item {
+        padding: 20px 24px;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        flex-direction: column;
+        gap: 4px;
+        align-items: flex-start;
+      }
+
+      .stat-item:nth-child(even) {
+        border-right: none;
+      }
+
+      .gallery-mosaic-label {
+        padding: 24px 24px 16px;
+        gap: 16px;
+      }
+
+      .section-shift {
+        padding: 60px 24px;
+      }
+
+      .shift-inner {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .section-testimonial {
+        padding: 60px 24px;
+      }
+
+      .testimonial-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .testimonial-stats {
+        flex-direction: row;
+        gap: 12px;
+      }
+
+      .ts-stat {
+        flex: 1;
+        padding: 14px 16px;
+      }
+
+      .ts-num {
+        font-size: 36px;
+      }
+
+      .benefits-top {
+        grid-template-columns: 1fr;
+      }
+
+      .benefits-heading {
+        padding: 48px 24px;
+      }
+
+      .benefits-grid-bottom {
+        grid-template-columns: 1fr;
+      }
+
+      .benefit-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 36px 24px;
+      }
+
+      .expertise-inner {
+        grid-template-columns: 1fr;
+        padding: 0;
+      }
+
+      .expertise-images {
+        padding-right: 0;
+        gap: 0;
+      }
+
+      .expertise-text {
+        padding: 40px 24px 32px;
+      }
+
+      .expertise-points {
+        padding: 0 24px 40px;
+      }
+
+      .expertise-point {
+        padding: 20px 0;
+      }
+
+      .colourway-header {
+        padding: 0 24px;
+      }
+
+      .colourway-slide {
+        flex: 0 0 80%;
+      }
+
+      .colourway-caption {
+        padding: 0 24px;
+        font-size: 16px;
+      }
+
+      .section-process {
+        padding: 60px 24px;
+      }
+
+      .process-steps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .process-step {
+        border-right: none;
+        border-bottom: 1px solid var(--light-grey);
+        padding: 28px 16px;
+      }
+
+      .process-step:nth-child(odd) {
+        border-right: 1px solid var(--light-grey);
+      }
+
+      .section-logos {
+        padding: 40px 24px;
+      }
+
+      .logos-row {
+        gap: 20px;
+      }
+
+      .section-contact {
+        padding: 60px 24px;
+      }
+
+      .contact-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .cf-row {
+        grid-template-columns: 1fr;
+      }
+
+      .section-cta {
+        padding: 80px 24px;
+      }
+
+      footer {
+        padding: 48px 24px;
+      }
+
+      .footer-inner {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        row-gap: 40px;
+      }
+
+      .footer-col--logo {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .footer-col--gap {
+        display: none;
+      }
+
+      .footer-links-large {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .footer-links-small {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .footer-social-links {
+        grid-column: 1;
+        grid-row: auto;
+        padding-top: 0;
+      }
+    }
+
+    /* ── RESPONSIVE 1440px+ (ultra-wide) ── */
+    @media (min-width: 1440px) {
+      .gallery-mosaic-label,
+      .section-shift,
+      .expertise-inner,
+      .section-testimonial,
+      .colourway-header,
+      .colourway-caption,
+      .section-process,
+      .section-contact,
+      .section-cta,
+      footer {
+        max-width: 1800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .testimonial-inner {
+        max-width: 1800px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-cta-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .gallery-mosaic-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .colourway-slide {
+        flex: 0 0 90%;
+      }
+
+      .process-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .process-step {
+        border-right: none !important;
+        padding: 24px 0;
+      }
+
+      .cta-btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .section-h2 {
+        font-size: clamp(38px, 9vw, 60px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- STICKY FLOAT -->
+  <div class="sf" id="sf">
+    <div class="sf-top-row">
+      <div class="sf-contact"><a href="tel:01613021580">0161 302 1580</a></div>
+      <div class="sf-burger" id="burger" role="button" aria-label="Open menu"><span></span></div>
+    </div>
+    <div class="sf-contact-btn">
+      <a href="https://www.imagefoundry.co.uk/contact-us/">Contact Us</a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div class="sticky-bar">
+      <div class="bi">
+        <a href="https://www.imagefoundry.co.uk/">
+          <img src="images/logos/if-logo.svg" alt="Image Foundry" />
+        </a>
+      </div>
+    </div>
+    <nav id="site-nav" style="display:none;">
+      <div class="nav-row">
+        <div class="nav-industries">
+          <div class="nav-industries-header">
+            <h2>INDUSTRIES</h2>
+            <p>Explore the industries Image Foundry are transforming.</p>
+          </div>
+          <div class="nav-industries-grid">
+            <figure><img src="images/industry/interiors-living-room.webp" alt="Interiors" />
+              <figcaption>
+                <h3><a href="https://www.imagefoundry.co.uk/industry/interiors/">INTERIORS</a></h3>
+              </figcaption>
+            </figure>
+            <figure><img src="images/industry/bathroom-basin.webp" alt="Bathrooms" />
+              <figcaption>
+                <h3><a href="https://www.imagefoundry.co.uk/industry/bathrooms/">BATHROOMS</a></h3>
+              </figcaption>
+            </figure>
+            <figure><img src="images/industry/product-shot.webp" alt="Products" />
+              <figcaption>
+                <h3><a href="https://www.imagefoundry.co.uk/industry/product/">PRODUCTS</a></h3>
+              </figcaption>
+            </figure>
+            <figure><img src="images/industry/kitchen-interior.webp" alt="Kitchens" />
+              <figcaption>
+                <h3><a href="https://www.imagefoundry.co.uk/industry/kitchen/">KITCHENS</a></h3>
+              </figcaption>
+            </figure>
+            <figure><img src="images/industry/bedroom-interior.webp" alt="Bedrooms" />
+              <figcaption>
+                <h3><a href="https://www.imagefoundry.co.uk/industry/bedrooms/">BEDROOMS</a></h3>
+              </figcaption>
+            </figure>
+            <figure><img src="images/industry/property-exterior.webp" alt="Property" />
+              <figcaption>
+                <h3><a href="https://www.imagefoundry.co.uk/industry/property/">PROPERTY</a></h3>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="nav-list">
+          <button class="nav-close" aria-label="Close menu">&#x2715;</button>
+          <ul class="nav-primary">
+            <li><a href="https://www.imagefoundry.co.uk/about-us/">About</a></li>
+            <li class="active"><a href="https://www.imagefoundry.co.uk/your-industry/">Your Industry</a></li>
+            <li><a href="https://www.imagefoundry.co.uk/case-studies/">Case Studies</a></li>
+            <li><a href="https://www.imagefoundry.co.uk/insights/">Insights</a></li>
+            <li><a href="https://www.imagefoundry.co.uk/process/">Our Process</a></li>
+            <li><a href="https://www.imagefoundry.co.uk/contact-us/">Contact Us</a></li>
+          </ul>
+          <div class="nav-secondary">
+            <ul>
+              <li><a href="https://www.imagefoundry.co.uk/privacy-policy/privacy-policy/">Privacy policy</a></li>
+            </ul>
+          </div>
+          <div class="nav-footer">
+            <ul>
+              <li><a href="https://www.instagram.com/imagefoundrystudios/">Instagram</a></li>
+              <li><a href="https://www.linkedin.com/company/image-foundry-studios/">LinkedIn</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <img class="hero-img" src="images/colourways/colourway-red.webp"
+      alt="Red external door on ivy-covered brick house — CGI product in AI-generated environment"
+      fetchpriority="high" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Image Foundry &nbsp;·&nbsp; CGI + AI</span>
+      <h1 class="hero-h1">
+        <span class="hero-h1-line1"><span class="outline-white">CGI</span> CRAFTSMANSHIP.</span>
+        AI&#8209;<span class="outline-white">AMPLIFIED.</span>
+      </h1>
+      <p class="hero-sub">Every year, UK product manufacturers leave hundreds of SKUs unimaged — invisible to buyers,
+        unlistable on retail platforms, and absent from their own catalogues. The cost and logistics of photography make
+        it impossible to do it all. We fix that.</p>
+      <a href="https://www.imagefoundry.co.uk/contact-us/" class="hero-cta-btn">Book a Free Consultation</a>
+    </div>
+    <a class="hero-chevron" href="#gallery-section">↓</a>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-num" data-count="20" data-suffix="+">20+</span>
+      <span class="stat-label">Years CGI Experience</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">60%</span>
+      <span class="stat-label">Lower Cost vs Photography</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">3×</span>
+      <span class="stat-label">Faster Time to Market</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-count="500" data-suffix="+">500+</span>
+      <span class="stat-label">SKUs Imaged Per Project</span>
+    </div>
+  </div>
+
+  <!-- GALLERY MOSAIC -->
+  <section class="section-gallery-mosaic" id="gallery-section">
+    <div class="gallery-mosaic-label wow">
+      <div class="gml-top-row">
+        <p class="gml-line">3D Rendered Product.</p>
+        <p class="gml-line gml-line--ai">AI Generated Roomset</p>
+      </div>
+      <h2 class="gml-heading">
+        <span class="outline">LESS COST.</span>&nbsp;&nbsp;<span class="outline">NO COMPROMISES.</span>
+      </h2>
+    </div>
+    <div class="gallery-mosaic-grid">
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-cgi-ai-3a.webp" alt="Product lifestyle — CGI + AI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-cgi-ai-3b.webp" alt="Product lifestyle — CGI + AI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-kitchen-appliances.webp"
+            alt="Kitchen appliances — CGI" loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-cgi-ai-4a.webp" alt="Product lifestyle — CGI + AI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-cgi-ai-4b.webp" alt="Product lifestyle — CGI + AI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-cgi-ai-3c.webp" alt="Product lifestyle — CGI + AI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/outdoor-decking.webp" alt="Garden decking — CGI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-bathroom-marble.webp" alt="Marble bathroom — CGI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-cgi-ai-4c.webp" alt="Product lifestyle — CGI + AI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/gallery-home-office.webp" alt="Home office — CGI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/door-black-georgian-dusk.webp"
+            alt="Georgian front door at dusk — CGI" loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/lighting-pendant.webp" alt="Pendant light — CGI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/external-paving-path.webp" alt="Garden path — CGI"
+            loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/gallery/radiator-living-room.webp"
+            alt="Radiator in living room — CGI" loading="lazy" /></div>
+      </div>
+      <div class="gm-item">
+        <div class="gm-item-inner"><img src="images/industry/bathroom-basin.webp" alt="Bathroom basin — CGI"
+            loading="lazy" /></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- BENEFITS -->
+  <section class="section-benefits">
+    <div class="benefits-top">
+      <div class="benefits-heading wow">
+        <span class="section-eyebrow">What this means for you</span>
+        <h2 class="section-h2">THREE THINGS THAT<br /><span class="outline">CHANGE</span> WHEN YOU<br />WORK THIS WAY.
+        </h2>
+      </div>
+      <div class="benefits-video-wrap wow">
+        <video class="benefits-video" src="videos/benefits-explainer.mp4" autoplay muted loop playsinline></video>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section class="section-expertise">
+    <div class="expertise-inner">
+      <div class="expertise-content">
+      <div class="expertise-text wow">
+        <span class="section-eyebrow">Why it matters who does this</span>
+        <h2 class="section-h2">THIS IS <span class="outline">CRAFT,</span><br />NOT A SHORTCUT.</h2>
+        <p class="section-body" style="margin-top:28px;">Dropping a product into an AI tool and pressing go produces
+          generic results. What we do is different. Our CGI foundation is built on over 20 years of knowing how to
+          light a product, style a scene and make an image sell. AI enhances that process — it never replaces it.</p>
+      </div>
+      <div class="expertise-points">
+          <div class="expertise-point wow">
+            <span class="ep-num">01</span>
+            <h3 class="ep-title">CGI is always the foundation</h3>
+            <p class="ep-body">Every project starts with a precisely built 3D CGI model of your product. We then create
+              a detailed blocked-out scene — giving us full control over geometry, lighting and spatial relationships
+              before AI enters the workflow.</p>
+          </div>
+          <div class="expertise-point wow">
+            <span class="ep-num">02</span>
+            <h3 class="ep-title">A consistent visual language</h3>
+            <p class="ep-body">Lighting mood, styling direction, colour temperature — all curated before a single
+              environment is generated. Your range feels like it belongs together, not like a collection assembled from
+              separate shoots.</p>
+          </div>
+          <div class="expertise-point wow">
+            <span class="ep-num">03</span>
+            <h3 class="ep-title">Your product is always the hero</h3>
+            <p class="ep-body">Twenty years of CGI expertise means we know exactly where environment and product compete
+              for attention — and how to make sure the product always wins. Finish, detail and integrity are protected
+              throughout.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIAL inside expertise section -->
+    <div class="section-testimonial">
+      <div class="testimonial-inner wow">
+        <video class="testimonial-video" src="videos/Comp%201_15.mp4" autoplay muted loop playsinline></video>
+        <div class="testimonial-quote-block">
+          <div class="testimonial-qq"><span>&#8216;</span><span>&#8216;</span></div>
+          <blockquote class="testimonial-quote">We went from photographing 30 products a year to having imagery<br />for
+            our entire 300-piece range — in the same budget window.</blockquote>
+          <cite class="testimonial-cite">
+            <span class="testimonial-cite-name">Sarah Mitcham, Head of Marketing</span>
+            <span class="testimonial-cite-company">Selecta Flooring &amp; Surfaces</span>
+          </cite>
+        </div>
+        <div class="testimonial-stats">
+          <div class="ts-stat"><span class="ts-num">10×</span><span class="ts-label">More Products<br />Imaged</span>
+          </div>
+          <div class="ts-stat ts-stat-blue"><span class="ts-num">SAME</span><span
+              class="ts-label">Annual<br />Budget</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONE PRODUCT. EVERY COLOUR. -->
+  <section class="section-colourway">
+    <div class="colourway-header wow">
+      <span class="section-eyebrow">The commercial argument</span>
+      <h2 class="section-h2">ONE PRODUCT.<br /><span class="outline">EVERY</span> COLOUR.</h2>
+    </div>
+    <div class="colourway-carousel-wrap">
+      <div class="colourway-carousel" id="cw-track">
+        <div class="colourway-slide"><img src="images/colourways/colourway-red.webp"
+            alt="Red external door — colourway variant" loading="lazy" /><span class="colourway-slide-label">Colourway:
+            Signal Red</span></div>
+        <div class="colourway-slide"><img src="images/colourways/colourway-blue.webp"
+            alt="Blue external door — colourway variant" loading="lazy" /><span class="colourway-slide-label">Colourway:
+            Steel Blue</span></div>
+        <div class="colourway-slide"><img src="images/colourways/colourway-dark-green.webp"
+            alt="Racing green external door — colourway variant" loading="lazy" /><span
+            class="colourway-slide-label">Colourway: Racing Green</span></div>
+        <div class="colourway-slide"><img src="images/colourways/colourway-yellow.webp"
+            alt="Yellow external door — colourway variant" loading="lazy" /><span
+            class="colourway-slide-label">Colourway: Yellow</span></div>
+        <div class="colourway-slide"><img src="images/colourways/colourway-anthracite.webp"
+            alt="Anthracite external door — colourway variant" loading="lazy" /><span
+            class="colourway-slide-label">Colourway: Anthracite</span></div>
+        <div class="colourway-slide"><img src="images/colourways/colourway-teal.webp"
+            alt="Teal external door — colourway variant" loading="lazy" /><span class="colourway-slide-label">Colourway:
+            Teal</span></div>
+        <div class="colourway-slide"><img src="images/colourways/colourway-oak.webp"
+            alt="Oak external door — colourway variant" loading="lazy" /><span class="colourway-slide-label">Colourway:
+            Oak</span></div>
+      </div>
+      <button class="cw-btn cw-btn-prev" id="cw-prev" aria-label="Previous colourway">&#8592;</button>
+      <button class="cw-btn cw-btn-next" id="cw-next" aria-label="Next colourway">&#8594;</button>
+      <div class="cw-dots" id="cw-dots"></div>
+    </div>
+    <p class="colourway-caption">Every colourway, every finish, every variant — all imaged from one CGI foundation.</p>
+  </section>
+
+  <!-- OUR PROCESS -->
+  <section class="section-process">
+    <div class="process-header wow">
+      <span class="section-eyebrow">The Mechanism</span>
+      <h2 class="section-h2">HOW WE GET YOU FROM <span class="outline">BEFORE</span> TO AFTER.</h2>
+      <p class="section-body">A CGI-first, AI-extended methodology built over 20 years of product imaging for UK
+        manufacturers.</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step wow"><span class="process-num">01</span>
+        <h3 class="process-title">Range Audit</h3>
+        <p class="process-body">We map your full product and colourway list and prioritise for maximum commercial
+          impact.</p>
+      </div>
+      <div class="process-step wow"><span class="process-num">02</span>
+        <h3 class="process-title">3D Master Build</h3>
+        <p class="process-body">Photorealistic CGI of your product — exact dimensions, textures, and material
+          properties. One build, unlimited variations.</p>
+      </div>
+      <div class="process-step wow"><span class="process-num">03</span>
+        <h3 class="process-title">Variant Generation</h3>
+        <p class="process-body">Every colour and finish delivered parametrically. One build, unlimited variations.</p>
+      </div>
+      <div class="process-step wow"><span class="process-num">04</span>
+        <h3 class="process-title">AI Scene Placement</h3>
+        <p class="process-body">Products placed into contextual lifestyle environments — kitchens, bathrooms, interiors,
+          exteriors.</p>
+      </div>
+      <div class="process-step wow"><span class="process-num">05</span>
+        <h3 class="process-title">Ready to Publish</h3>
+        <p class="process-body">Files named, formatted, and optimised for ecomm, print, and retail portals. Done.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY -->
+  <div class="section-logos">
+    <p class="logos-label">Trusted by leading brands</p>
+    <div class="logos-row">
+      <img src="images/logos/strata.png" alt="Strata" class="client-logo" loading="lazy" />
+      <img src="images/logos/irsap-1.png" alt="Irsap" class="client-logo" loading="lazy" />
+      <img src="images/logos/geberit.png" alt="Geberit" class="client-logo" loading="lazy" />
+      <img src="images/logos/ideal-standard.png" alt="Ideal Standard" class="client-logo" loading="lazy" />
+      <img src="images/logos/franke.png" alt="Franke" class="client-logo" loading="lazy" />
+      <img src="images/logos/m-s.png" alt="M&S" class="client-logo" loading="lazy" />
+      <img src="images/logos/b-q.png" alt="B&Q" class="client-logo" loading="lazy" />
+      <img src="images/logos/bbc.png" alt="BBC" class="client-logo" loading="lazy" />
+      <img src="images/logos/vistry-group.png" alt="Vistry Group" class="client-logo" loading="lazy" />
+      <img src="images/logos/amtico.png" alt="Amtico" class="client-logo" loading="lazy" />
+      <img src="images/logos/barratt.png" alt="Barratt" class="client-logo" loading="lazy" />
+      <img src="images/logos/wienerberger.png" alt="Wienerberger" class="client-logo" loading="lazy" />
+    </div>
+  </div>
+
+  <!-- CONTACT FORM -->
+  <section class="section-contact">
+    <div class="contact-inner">
+      <div class="contact-text wow">
+        <span class="section-eyebrow">Get in touch</span>
+        <h2 class="section-h2">START THE<br /><span class="outline">CONVERSATION.</span></h2>
+        <p class="section-body">Tell us about your product range and we'll show you exactly what's possible — no
+          commitment required.</p>
+      </div>
+      <form class="contact-form wow" id="contact-form">
+        <div class="cf-row">
+          <div class="cf-field"><label for="cf-name">Name</label><input id="cf-name" type="text" name="Name"
+              placeholder="Your name" required /></div>
+          <div class="cf-field"><label for="cf-company">Company</label><input id="cf-company" type="text" name="Company"
+              placeholder="Your company" /></div>
+        </div>
+        <div class="cf-field"><label for="cf-email">Email</label><input id="cf-email" type="email" name="Email"
+            placeholder="your@email.com" required /></div>
+        <div class="cf-field"><label for="cf-message">Message</label><textarea id="cf-message" name="Message" rows="4"
+            placeholder="Tell us about your product range..."></textarea></div>
+        <button type="submit" class="cf-submit" id="cf-submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-cta">
+    <span class="cta-eyebrow">Get Ready, Get started</span>
+    <h2 class="cta-h2">READY TO IMAGE<br />YOUR FULL <span class="outline-white">RANGE?</span></h2>
+    <p class="cta-sub">Let's start with a conversation about your products and what you're trying to achieve.</p>
+    <a href="https://www.imagefoundry.co.uk/contact-us/" class="cta-btn">Let's talk</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-col--logo">
+        <img src="images/logos/if-logo.svg" alt="Image Foundry" class="footer-logo-img" />
+        <div class="footer-contact">
+          <a href="https://www.imagefoundry.co.uk/contact-us/" class="footer-lets-talk">Let's talk</a>
+        </div>
+      </div>
+      <div class="footer-col--gap"></div>
+      <ul class="footer-links-large">
+        <li><a href="https://www.imagefoundry.co.uk/about-us/">WHO WE ARE</a></li>
+        <li><a href="https://www.imagefoundry.co.uk/insights/">INSIGHTS</a></li>
+        <li><a href="https://www.imagefoundry.co.uk/process/">OUR PROCESS</a></li>
+        <li><a href="https://www.imagefoundry.co.uk/contact-us/">CONTACT US</a></li>
+      </ul>
+      <ul class="footer-links-small">
+        <li><a href="https://www.imagefoundry.co.uk/privacy-policy/privacy-policy/">Privacy</a></li>
+        <li><a href="#">Cookies</a></li>
+      </ul>
+      <ul class="footer-social-links">
+        <li><a href="https://www.instagram.com/imagefoundrystudios/">Instagram</a></li>
+        <li><a href="https://www.linkedin.com/company/image-foundry-studios/">LinkedIn</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var EMAILJS_SERVICE = "service_nyex4pe";
+      var EMAILJS_TEMPLATE = "template_41uecaj";
+      var EMAILJS_KEY = "59R6alpkOM4DFZCqV";
+
+      /* ── NAV ── */
+      var sf = document.getElementById('sf');
+      var nav = document.getElementById('site-nav');
+      var burger = document.getElementById('burger');
+
+      function menuOpen() {
+        sf.classList.add('nav-open-active');
+        nav.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        burger.style.display = 'none';
+      }
+      function menuClose() {
+        sf.classList.remove('nav-open-active');
+        nav.style.display = 'none';
+        document.body.style.overflow = '';
+        burger.style.display = '';
+      }
+
+      burger.addEventListener('click', function () {
+        nav.style.display === 'none' ? menuOpen() : menuClose();
+      });
+      document.querySelector('.nav-close').addEventListener('click', menuClose);
+      document.querySelectorAll('.nav-primary a, .nav-industries-grid a').forEach(function (a) {
+        a.addEventListener('click', menuClose);
+      });
+      document.addEventListener('keyup', function (e) { if (e.key === 'Escape') menuClose(); });
+
+      /* ── STICKY NAV ── */
+      window.addEventListener('scroll', function () {
+        sf.classList.toggle('nav-is-down', window.scrollY > 60);
+      }, { passive: true });
+
+      /* ── STAT COUNTERS ── */
+      var counters = document.querySelectorAll('.stat-num[data-count]');
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var el = e.target;
+          var target = parseInt(el.dataset.count, 10);
+          var suffix = el.dataset.suffix || '';
+          var start = performance.now();
+          function tick(now) {
+            var p = Math.min((now - start) / 1500, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.floor(eased * target) + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(function (el) { io.observe(el); });
+
+      /* ── SCROLL ANIMATIONS ── */
+      var wowObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.wow').forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.top >= window.innerHeight) {
+          el.classList.add('animate-ready');
+          wowObs.observe(el);
+        }
+      });
+
+      /* ── BENEFIT PARALLAX ── */
+      var bgs = document.querySelectorAll('.benefit-bg');
+      window.addEventListener('scroll', function () {
+        bgs.forEach(function (bg) {
+          var r = bg.parentElement.getBoundingClientRect();
+          var c = r.top + r.height / 2 - window.innerHeight / 2;
+          bg.style.transform = 'translateY(' + (c * 0.08) + 'px)';
+        });
+      }, { passive: true });
+
+      /* ── COLOURWAY CAROUSEL ── */
+      var cwTrack = document.getElementById('cw-track');
+      var cwDots = document.getElementById('cw-dots');
+      var cwPrev = document.getElementById('cw-prev');
+      var cwNext = document.getElementById('cw-next');
+      var cwSlides = cwTrack.querySelectorAll('.colourway-slide');
+      var cwIdx = 0;
+
+      cwSlides.forEach(function (_, i) {
+        var dot = document.createElement('button');
+        dot.className = 'cw-dot' + (i === 0 ? ' cw-dot-active' : '');
+        dot.setAttribute('aria-label', cwSlides[i].querySelector('.colourway-slide-label').textContent);
+        dot.addEventListener('click', function () { goTo(i); });
+        cwDots.appendChild(dot);
+      });
+
+      function goTo(i) {
+        cwIdx = Math.max(0, Math.min(cwSlides.length - 1, i));
+        cwSlides[cwIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        cwDots.querySelectorAll('.cw-dot').forEach(function (d, j) {
+          d.classList.toggle('cw-dot-active', j === cwIdx);
+        });
+        cwPrev.disabled = cwIdx === 0;
+        cwNext.disabled = cwIdx === cwSlides.length - 1;
+      }
+
+      cwPrev.addEventListener('click', function () { goTo(cwIdx - 1); });
+      cwNext.addEventListener('click', function () { goTo(cwIdx + 1); });
+      goTo(0);
+
+      /* ── CONTACT FORM ── */
+      var form = document.getElementById('contact-form');
+      var submit = document.getElementById('cf-submit');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        submit.disabled = true;
+        submit.textContent = 'Sending…';
+        var data = new FormData(form);
+        emailjs.init({ publicKey: EMAILJS_KEY });
+        emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+          from_name: data.get('Name'),
+          company: data.get('Company'),
+          email: data.get('Email'),
+          message: data.get('Message'),
+        }).then(function () {
+          window.location.href = 'thank-you.html';
+        }).catch(function () {
+          alert('Something went wrong. Please call us on 0161 302 1580.');
+          submit.disabled = false;
+          submit.textContent = 'Send Message';
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>

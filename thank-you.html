@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brief Received | Image Foundry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black: #000000;
+      --white: #FFFFFF;
+      --teal: #2A657D;
+      --off-white: #F6F6F6;
+      --light-grey: #DBDBDB;
+      --mid-grey: #B7B7B7;
+      --near-black: #212529;
+    }
+
+    body {
+      font-family: 'Barlow Condensed', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .thankyou-logo img {
+      width: clamp(110px, 25vw, 150px);
+      margin-bottom: clamp(1.5rem, 5vw, 3rem);
+    }
+
+    .thankyou-icon {
+      width: clamp(56px, 12vw, 72px);
+      height: clamp(56px, 12vw, 72px);
+      border-radius: 50%;
+      background: var(--teal);
+      color: var(--white);
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+
+    .thankyou-heading {
+      font-weight: 700;
+      font-size: clamp(1.8rem, 8vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    .thankyou-body {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      color: var(--near-black);
+      margin-bottom: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    .thankyou-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .thankyou-btn {
+      display: block;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: opacity 0.2s ease;
+    }
+
+    .thankyou-btn:hover {
+      opacity: 0.85;
+    }
+
+    .thankyou-btn-primary {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .thankyou-btn-secondary {
+      background: var(--off-white);
+      color: var(--black);
+      border: 1px solid var(--light-grey);
+    }
+
+    .thankyou-btn-sub {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--mid-grey);
+      margin-top: 0.25rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="thankyou-logo">
+    <img src="images/logos/if-logo.svg" alt="Image Foundry" />
+  </div>
+  <div class="thankyou-content">
+    <div class="thankyou-icon">&#10003;</div>
+    <h1 class="thankyou-heading">Brief Received.<br />Thank You.</h1>
+    <p class="thankyou-body">You'll hear from us within <strong>4&ndash;6 business hours.</strong></p>
+    <div class="thankyou-btns">
+      <a href="tel:01613021580" class="thankyou-btn thankyou-btn-primary">Can't wait? Call us directly &mdash; 0161 302 1580</a>
+      <a href="https://www.imagefoundry.co.uk/case-studies/" class="thankyou-btn thankyou-btn-secondary">While you wait
+        <span class="thankyou-btn-sub">See how we've solved this for manufacturers like yours.</span>
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>
